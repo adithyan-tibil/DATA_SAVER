@@ -396,6 +396,7 @@ BEGIN
 		-------------------------------------------------------------------------------------------
 		-------------------------------------------------------------------------------------------
 
+		-------------------------------------------------------------------------------------------
 		
 		WHEN evt='REALLOCATE_TO_MERCHANT' THEN
 
@@ -507,13 +508,14 @@ BEGIN
        			RETURN QUERY SELECT rowid, 1, ARRAY['ALLOCATED_TO_MERCHANT'], sb_id;
 
 			WHEN evt='REALLOCATE_TO_MERCHANT' THEN
-				INSERT INTO registry.sb
 				UPDATE registry.sb
        			SET 
            			sbevt = 'REALLOCATED_TO_MERCHANT',
-            		mpid = mp_id,
+					isd = true,
 					eby = e_by
-       			WHERE did = d_id AND isd = FALSE
+       			WHERE did = d_id AND isd = FALSE;
+				INSERT INTO registry.sb(did,bid,brid,mpid,eby,sbevt) 
+				VALUES (d_id,b_id,br_id,mp_id,e_by,'REALLOCATED_TO_MERCHANT')
 				RETURNING sid INTO sb_id;
        			RETURN QUERY SELECT rowid, 1, ARRAY['ALLOCATED_TO_MERCHANT'], sb_id;
 				
@@ -571,6 +573,11 @@ SELECT * FROM registry.sb_iterator(
 
 
 
+-- INSERT INTO table_name (column1, column2, ...)
+-- VALUES (value1, value2, ...)
+-- ON CONFLICT (conflict_target) 
+-- DO UPDATE SET column1 = value, column2 = value
+-- -- or DO NOTHING;
 
 
 -- CREATE OR REPLACE FUNCTION registry.sb_validator(
