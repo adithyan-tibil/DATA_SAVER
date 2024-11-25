@@ -1,3 +1,5 @@
+
+
 CREATE TYPE registry.banks_msgs AS ENUM (
 		'SUCCESS_INSERT',
 		'SUCCESS_UPDATE',
@@ -19,7 +21,7 @@ BEGIN
                 messages := array_append(messages, 'BANK_REPEATED'::registry.banks_msgs);
 			END IF;
 		WHEN b_id IS NOT NULL THEN 
-			IF b_addr = null AND b_info = '{}' THEN
+			IF b_addr IS null AND b_info = '{}' THEN
                 messages := array_append(messages, 'EMPTY_UPDATE'::registry.banks_msgs);
 			END IF;
 			IF NOT EXISTS (SELECT 1 FROM registry.banks WHERE bid = b_id and isd = FALSE) THEN
@@ -60,7 +62,7 @@ BEGIN
     		INSERT INTO registry.banks (bname, baddr, bevt, binfo, eby, eid)
     		VALUES (b_name, b_addr, bevt, b_info, eby, eid)
    			RETURNING bid INTO bank_id ;
-   			RETURN QUERY SELECT rowid, 1, 'SUCCESS_INSERT'::registry.banks_msgs,bank_id;
+   			RETURN QUERY SELECT rowid, 1,  ARRAY['SUCCESS_INSERT']::registry.banks_msgs[],bank_id;
 				
 		WHEN b_id IS NOT NULL THEN 
     		UPDATE registry.banks
@@ -70,7 +72,7 @@ BEGIN
 				eby = e_by,
 				eat = CURRENT_TIMESTAMP
        		WHERE bid = b_id;
-       		RETURN QUERY SELECT rowid, 1, 'SUCCESS_UPDATE'::registry.banks_msgs, b_id;
+       		RETURN QUERY SELECT rowid, 1,  ARRAY['SUCCESS_UPDATE']::registry.banks_msgs[], b_id;
 
 	END CASE;
 
@@ -111,7 +113,7 @@ $$ LANGUAGE plpgsql;
 EXPLAIN ANALYZE
 SELECT row_id,status,msg,bid FROM registry.bank_iterator(
 	ARRAY[1],
-	ARRAY[111],
+	ARRAY[71],
     ARRAY[]::TEXT[], 
     ARRAY[]::TEXT[], 
     ARRAY[]::jsonb[], 
