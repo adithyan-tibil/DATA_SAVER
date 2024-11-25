@@ -42,7 +42,7 @@ CREATE OR REPLACE FUNCTION registry.mf_validator_writer(
 )
 RETURNS TABLE (row_id INTEGER, status INTEGER, msg registry.mf_msgs[],mf_ids INTEGER) AS $$
 DECLARE
-    mfevt registry.mfevts := 'MF_ONBOARDED';
+    mf_evt registry.mfevts := 'MF_ONBOARDED';
 	mf_ids INTEGER := NULL;
     validator_result registry.mf_msgs[];
 
