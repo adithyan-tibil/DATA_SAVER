@@ -1,3 +1,5 @@
+-----ADDED DEACTIVATE
+
 
 CREATE OR REPLACE FUNCTION registry.sb_validator(
 	evt VARCHAR,

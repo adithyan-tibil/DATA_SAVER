@@ -2,6 +2,9 @@
 ----------------------------------------------------SB----------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------------------------
 
+----USED INTEGERS FOR RETURING ERROR CODES AND MAP THE CODES INTO A TABLE
+
+
 CREATE OR REPLACE FUNCTION registry.sb_validator(
 	evt VARCHAR,
     v_id INTEGER,
