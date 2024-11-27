@@ -1,6 +1,6 @@
 def generate_query(num_rows):
     # Generate the array of numbers from 1 to num_rows
-    array_values = ", ".join(map(str, range(1, num_rows + 1)))
+    array_values = ", ".join(map(str, range(20, num_rows + 1)))
     
     # Construct the query
     query = f"""
@@ -19,7 +19,7 @@ SELECT * FROM registry.sb_iterator(
     return query
 
 # Generate query for 10,000 rows
-query = generate_query(5000)
+query = generate_query(1020)
 print(query)
 
 # Save to a file (optional)

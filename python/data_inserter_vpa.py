@@ -4,7 +4,7 @@ from faker import Faker
 def insert_devices(num_rows):
     # Database connection setup
     conn = psycopg2.connect(
-        dbname="registryMS_0",
+        dbname="registryMS",
         user="postgres",
         password="tibil123",
         host="localhost",
@@ -15,7 +15,7 @@ def insert_devices(num_rows):
     # Data generation setup
     fake = Faker()
     vpas = set()
-    bid_list = [2]
+    bid_list = [5]
 
 
     # Insert rows
@@ -40,4 +40,4 @@ def insert_devices(num_rows):
     cursor.close()
     conn.close()
 
-insert_devices(10000)  # Inserts 100 rows into the table
+insert_devices(20)  # Inserts 100 rows into the table
