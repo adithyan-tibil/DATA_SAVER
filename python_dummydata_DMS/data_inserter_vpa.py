@@ -4,10 +4,10 @@ from faker import Faker
 def insert_devices(num_rows):
     # Database connection setup
     conn = psycopg2.connect(
-        dbname="registryMS",
+        dbname="dms-db",
         user="postgres",
-        password="tibil123",
-        host="localhost",
+        password="tibil2024",
+        host="dms-db.c1asoyckgmlk.ap-south-1.rds.amazonaws.com",
         port="5432"
     )
     cursor = conn.cursor()
@@ -15,13 +15,14 @@ def insert_devices(num_rows):
     # Data generation setup
     fake = Faker()
     vpas = set()
-    bid_list = [5]
-
+    bid_list = [44926]
+# 44925
+# 44926
 
     # Insert rows
     for i in range(num_rows):
         # Generate a unique device name
-        vpa = fake.name()+str(i)
+        vpa = 'vpa@aqz'+str(i+10)
         vpas.add(vpa)
         
         # Select random values for mfid, fid, and mdid
@@ -40,4 +41,4 @@ def insert_devices(num_rows):
     cursor.close()
     conn.close()
 
-insert_devices(20)  # Inserts 100 rows into the table
+insert_devices(10)  # Inserts 100 rows into the table
