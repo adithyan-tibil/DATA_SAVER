@@ -203,13 +203,13 @@ CREATE OR REPLACE FUNCTION registry.val(
     evt VARCHAR,
     data INTEGER[][]
 )
-RETURNS void AS $$
+RETURNS TABLE (result INTEGER[]) AS $$
 BEGIN 
-	RAISE NOTICE '%',data[1];
-    -- FOR i IN 1..array_length(data, 1) LOOP
-    --     RETURN QUERY 
-    --     SELECT data[i];
-    -- END LOOP;
+	RAISE NOTICE '%',data;
+    FOR i IN 1..array_length(data, 1) LOOP
+        RETURN QUERY 
+        SELECT data[i]::INTEGER[];
+    END LOOP;
 END;
 $$ LANGUAGE plpgsql;
 SELECT * 
@@ -217,9 +217,9 @@ FROM registry.val(
     'BOUND_DEVICE',
     -- ARRAY['rowid', 'vid', 'did','eid','eby'],
     ARRAY[
-        ARRAY[1, 11, 222,null,null,null,1,1]::INTEGER[],
-        ARRAY[2, 12, 333,null,null,null,1,1]::INTEGER[],
-        ARRAY[3, 13, 444,null,null,null,1,1]::INTEGER[],
+        -- ARRAY[1, 11, 222,null,null,null,1,1]::INTEGER[],
+        -- ARRAY[2, 12, 333,null,null,null,1,1]::INTEGER[],
+        -- ARRAY[3, 13, 444,null,null,null,1,1]::INTEGER[],
         ARRAY[4, 14, 555,0,0,0,1,1]::INTEGER[]
     ]::INTEGER[]
 );

@@ -9,7 +9,7 @@ def generate_sql_query(start,end):
     # Generate the array of arrays (100 to 165)
     arrays = []
     for i in range(start, end):  # From 100 to 165 inclusive
-        arrays.append(f" ARRAY[{i}, {i}, {i}, 1, {i}]::INTEGER[]")
+        arrays.append(f" ARRAY[{i}, {i}, {i},null,null,null, 1, {i}]::INTEGER[]")
 
     # Add the generated arrays to the SQL query
     sql_query += "ARRAY[\n"
