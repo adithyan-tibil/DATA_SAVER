@@ -24,7 +24,7 @@ BEGIN
                 messages := array_append(messages, 'BANK_REPEATED'::registry.banks_msgs);
 			END IF;
 		WHEN b_id IS NOT NULL THEN 
-			IF b_addr IS null AND b_info = '{}' THEN
+			IF b_addr = '' AND b_info = '{}' THEN
                 messages := array_append(messages, 'EMPTY_UPDATE'::registry.banks_msgs);
 			END IF;
 			IF NOT EXISTS (SELECT 1 FROM registry.banks WHERE bid = b_id and isd = FALSE) THEN
