@@ -10,7 +10,7 @@ ALTER TABLE registry.firmware ALTER COLUMN eby TYPE VARCHAR(20);
 ALTER TABLE registry.model ALTER COLUMN eby TYPE VARCHAR(20);
 
 
--- For `_v` tables
+-- For version tables
 ALTER TABLE registry.banks_v ALTER COLUMN eby TYPE VARCHAR(20);
 ALTER TABLE registry.branches_v ALTER COLUMN eby TYPE VARCHAR(20);
 ALTER TABLE registry.mf_v ALTER COLUMN eby TYPE VARCHAR(20);
