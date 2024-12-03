@@ -304,7 +304,7 @@ CREATE OR REPLACE FUNCTION registry.sb_validator_writer(
     b_id INTEGER,
     br_id INTEGER,
     mp_id INTEGER,
-    e_by INTEGER,
+    e_by VARCHAR,
     e_id INTEGER
 )
 RETURNS TABLE (
@@ -476,7 +476,7 @@ CREATE OR REPLACE FUNCTION registry.sb_iterator(
     b_id INT[],
     br_id INT[],
 	mp_id INT[],
-    e_by INT[],
+    e_by TEXT[],
     eid INT[]
 ) 
 -- RETURNS TABLE (row_id INTEGER, status INTEGER, msg TEXT[],sid INTEGER,vid INTEGER,did INTEGER,bid INTEGER,brid INTEGER,mid INTEGER,eat timestamp) AS $$
