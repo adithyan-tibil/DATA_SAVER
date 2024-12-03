@@ -52,7 +52,7 @@ BEGIN
                 messages := array_append(messages, 'BANK_REPEATED'::registry.banks_msgs);
 			END IF;
 		WHEN b_id IS NOT NULL THEN 
-			IF b_addr IS null AND b_info = '{}' THEN
+			IF b_addr = '' AND b_info = '{}' THEN
                 messages := array_append(messages, 'EMPTY_UPDATE'::registry.banks_msgs);
 			END IF;
 			IF NOT EXISTS (SELECT 1 FROM registry.banks WHERE bid = b_id and isd = FALSE) THEN
@@ -98,7 +98,7 @@ BEGIN
 		WHEN b_id IS NOT NULL THEN 
     		UPDATE registry.banks
        		SET 
-           		baddr = COALESCE(b_addr, baddr), ----COALESCE(NULLIF(bank_addrs[i], ''), baddr)
+           		baddr = COALESCE(NULLIF(b_addr, ''), baddr), 
             	binfo = COALESCE(NULLIF(b_info::text, '{}'::text)::json, binfo),
 				eby = e_by,
 				eid = e_id,
