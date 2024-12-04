@@ -27,6 +27,11 @@ ADD COLUMN isa BOOLEAN DEFAULT true;
 ALTER TABLE registry.sb_v
 ADD COLUMN isa BOOLEAN DEFAULT true;
 
+ALTER TABLE registry.vpa
+ADD COLUMN isa BOOLEAN DEFAULT true;
+
+ALTER TABLE registry.vpa_v
+ADD COLUMN isa BOOLEAN DEFAULT true;
 
 
 
@@ -248,7 +253,7 @@ BEGIN
 			END IF;
 
    			SELECT brid INTO values_tester FROM registry.sb WHERE did = d_id AND isd = FALSE;
-    		SELECT brid INTO values_tester2 FROM registry.merchants WHERE mid = mp_id AND isd = FALSE;
+    		SELECT brid INTO values_tester2 FROM registry.merchants WHERE mpid = mp_id AND isd = FALSE;
     		IF values_tester IS NOT NULL AND values_tester2 IS NOT NULL THEN
         		IF values_tester != values_tester2 THEN
             		messages := array_append(messages, 'BANK_MERCHANT_UNMATCHED_BID'::registry.sb_msgs);
@@ -302,7 +307,7 @@ CREATE OR REPLACE FUNCTION registry.sb_validator_writer(
     b_id INTEGER,
     br_id INTEGER,
     mp_id INTEGER,
-    e_by INTEGER,
+    e_by VARCHAR,
     e_id INTEGER
 )
 RETURNS TABLE (
@@ -474,7 +479,7 @@ CREATE OR REPLACE FUNCTION registry.sb_iterator(
     b_id INT[],
     br_id INT[],
 	mp_id INT[],
-    e_by INT[],
+    e_by TEXT[],
     eid INT[]
 ) 
 -- RETURNS TABLE (row_id INTEGER, status INTEGER, msg TEXT[],sid INTEGER,vid INTEGER,did INTEGER,bid INTEGER,brid INTEGER,mid INTEGER,eat timestamp) AS $$
