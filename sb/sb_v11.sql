@@ -74,7 +74,7 @@ DECLARE
 	values_tester2 INTEGER;
 BEGIN
     CASE 
-	-------------------------------BOUND_DEVICE---------------------------------------------------------------
+	-------------------------------BIND_DEVICE---------------------------------------------------------------
         WHEN evt='BIND_DEVICE' THEN
             IF NOT EXISTS (SELECT 1 FROM registry.vpa WHERE vid = v_id AND isd = FALSE) THEN
                 messages := array_append(messages, 'INVALID_VPA'::registry.sb_msgs);
@@ -520,15 +520,15 @@ UPDATE registry.sb SET vid = null
 EXPLAIN ANALYZE
 
 SELECT * FROM registry.sb_iterator(
-    ARRAY[20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], -- ROW_ID
-    'BOUND_DEVICE',
-    ARRAY[20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], -- VID ARRAY
-    ARRAY[20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], -- DID ARRAY
-    ARRAY[]::INTEGER[], -- Empty array
-    ARRAY[]::INTEGER[], -- Empty array
-    ARRAY[]::INTEGER[], -- Empty array
-    ARRAY[20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], -- EBY ARRAY
-    ARRAY[20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]::INTEGER[] -- Empty array
+    ARRAY[1], -- ROW_ID
+    'ALLOCATE_TO_MERCHANT', -- EVENT
+    ARRAY[]::INTEGER[], 
+    ARRAY[2]::INTEGER[], -- DID ARRAY
+    ARRAY[]::INTEGER[], 
+    ARRAY[]::INTEGER[], 
+    ARRAY[2]::INTEGER[], -- MERCHANT ID
+    ARRAY['abc1'], -- EBY ARRAY
+    ARRAY[20]::INTEGER[] -- EID
 );
 
 EXPLAIN ANALYZE

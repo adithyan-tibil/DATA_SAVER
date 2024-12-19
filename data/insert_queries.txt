@@ -1,0 +1,13 @@
+
+        INSERT INTO registry.vpa (vpa, bid, vevt, eid, eby)
+        VALUES
+        ('vpa@aqz10', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz11', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz12', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz13', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz14', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz15', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz16', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz17', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz18', 44926, 'VPA_ONBOARDED', 1, 1),
+('vpa@aqz19', 44926, 'VPA_ONBOARDED', 1, 1);

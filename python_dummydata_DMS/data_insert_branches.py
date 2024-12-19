@@ -15,7 +15,7 @@ def insert_devices(num_rows):
     # Data generation setup
     fake = Faker()
     brnames = set()
-    bid_list = [44927]
+    bid_list = [111481]
 
 
     # Insert rows

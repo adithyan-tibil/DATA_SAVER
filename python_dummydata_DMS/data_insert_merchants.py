@@ -15,16 +15,16 @@ def insert_devices(num_rows):
     # Data generation setup
     fake = Faker()
     mnames = set()
-    bid_list = [44925]
+    bid_list = [111481]
 
     # Insert rows
     for i in range(num_rows):
         # Generate a unique device name
         mname = 'merchant_'+''+str(i+10)
         mnames.add(mname)
-        minfo='{"name": "john", "phno": "+123456789012", "email": "abc@gmail.com"}'
+        minfo='{"accNo": 12345678 , "phno": "+123456789012", "accHolderName": "abc@gm"}'
         msid = fake.random.randint(100, 9999)
-        brid = 51
+        brid = 24260
         bid = fake.random.choice(bid_list)
 
         
