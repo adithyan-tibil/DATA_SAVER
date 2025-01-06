@@ -101,7 +101,8 @@ CREATE OR REPLACE FUNCTION switch.update_and_fetch_durl(
 ) RETURNS TABLE(
     iid INT,
     did INT,
-    durl VARCHAR
+    durl VARCHAR,
+	client VARCHAR
 ) AS $$
 BEGIN
     -- Insert the record into the payments_cache table
@@ -110,7 +111,7 @@ BEGIN
 
     -- Fetch the durl from the mrouter materialized view
     RETURN QUERY
-    SELECT switch.mrouter.iid, switch.mrouter.did, switch.mrouter.durl
+    SELECT switch.mrouter.iid, switch.mrouter.did, switch.mrouter.durl, switch.mrouter.client_name
     FROM switch.mrouter
     WHERE switch.mrouter.iid = _iid AND switch.mrouter.did = _did
     LIMIT 1;
