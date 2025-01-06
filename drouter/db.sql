@@ -1,12 +1,12 @@
--- DROP TABLE IF EXISTS switch.payments_cache;
--- DROP TABLE IF EXISTS switch.dtypes CASCADE;
--- DROP TABLE IF EXISTS switch.devices CASCADE;
--- DROP TABLE IF EXISTS switch.ins CASCADE;
--- DROP TABLE IF EXISTS switch.sb_router;
--- DROP TABLE IF EXISTS switch.router CASCADE;
--- DROP TYPE IF EXISTS environment_type;
--- DROP FUNCTION IF EXISTS switch.insert_and_fetch_durl(integer, integer, jsonb) CASCADE;
--- DROP SCHEMA IF EXISTS switch;
+DROP TABLE IF EXISTS switch.payments_cache;
+DROP TABLE IF EXISTS switch.dtypes CASCADE;
+DROP TABLE IF EXISTS switch.devices CASCADE;
+DROP TABLE IF EXISTS switch.ins CASCADE;
+DROP TABLE IF EXISTS switch.sb_router;
+DROP TABLE IF EXISTS switch.router CASCADE;
+DROP TYPE IF EXISTS environment_type;
+DROP FUNCTION IF EXISTS switch.insert_and_fetch_durl(integer, integer, jsonb) CASCADE;
+DROP SCHEMA IF EXISTS switch;
 
 CREATE SCHEMA IF NOT EXISTS switch;
 
