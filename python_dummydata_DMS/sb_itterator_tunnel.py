@@ -11,18 +11,18 @@ def store_update_queries_to_file(num_rows):
     with open(filename, 'w') as f:
         # Loop to generate the update queries
         for i in range(num_rows):
-            vid = i + 45001
-            mid = i + 45001
-            brid = 10
+            vid = i +1
+            mid = i +1
+            brid = 1
             bid = 1
-            did = i + 45001
+            did = i +1
 
             # Directly format the values into the query string
             query = f"""
             UPDATE registry.sb
-            SET mid = {mid}, brid = {brid}, bid = {bid} , vid = {vid}
+            SET mid = {mid}, brid = {brid}, bid = {bid} , vid = {vid}, sbevt = 'ALLOCATED_TO_BRANCH'
             WHERE did = {did};
             """
             f.write(query + "\n")
 
-store_update_queries_to_file(5000)
+store_update_queries_to_file(50000)
