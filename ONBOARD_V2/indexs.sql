@@ -46,11 +46,11 @@ ON registry.vpa (vpa);
 CREATE INDEX idx_vpa_vpa_isd
 ON registry.vpa (vpa, isd);
 
--- CREATE INDEX idx_vpa_bid
--- ON registry.vpa (bid);
+CREATE INDEX idx_vpa_bid
+ON registry.vpa (bid);
 
--- CREATE INDEX idx_vpa_bid_isd
--- ON registry.vpa (bid, isd);
+CREATE INDEX idx_vpa_bid_isd
+ON registry.vpa (bid, isd);
 
 
 ---------------------BANK INDEXES
@@ -66,6 +66,8 @@ ON registry.banks (bname, isd);
 
 CREATE INDEX idx_branches_brname
 ON registry.branches (brname);
+
+
 
 CREATE INDEX idx_branches_bid
 ON registry.branches (bid);
@@ -91,9 +93,39 @@ ON registry.devices (mdid);
 
 --------------------MERCHANTS INDEXES
 
-CREATE INDEX idx_merchants
+CREATE INDEX idx_merchants_mname
 ON registry.merchants (mname);
 
+CREATE INDEX idx_merchants_bid
+ON registry.merchants (bid);
 
 
+
+-----------------------FIRMWARE INDEXES
+
+CREATE INDEX idx_firmware_fname
+ON registry.firmware (fname);
+
+CREATE INDEX idx_firmware_mfid
+ON registry.firmware (mfid);
+
+CREATE INDEX idx_firmware_
+ON registry.firmware (fname);
+
+
+-----------------------MF INDEXES
+
+CREATE INDEX idx_mf_mfname
+ON registry.mf (mfname);
+
+-----------------------MODELS INDEXES
+
+CREATE INDEX idx_model_mfid
+ON registry.model (mfid);
+
+CREATE INDEX idx_model_fid
+ON registry.model (fid);
+
+CREATE INDEX idx_model_mdname
+ON registry.model (mdname);
 

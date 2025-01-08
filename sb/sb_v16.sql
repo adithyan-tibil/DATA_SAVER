@@ -3,41 +3,6 @@ DROP FUNCTION IF EXISTS
     registry.sb_validator_writer,
     registry.sb_iterator
 
-ALTER TYPE registry.sbevts ADD VALUE 'VPA_DELETED';
-ALTER TYPE registry.vevts ADD VALUE 'VPA_DELETED';
-
-DROP TYPE registry.sb_msgs;
-
-ALTER TABLE registry.banks
-ADD COLUMN isa BOOLEAN DEFAULT true;
-
-ALTER TABLE registry.banks_v
-ADD COLUMN isa BOOLEAN DEFAULT true;
-
-CREATE TYPE registry.sb_msgs AS ENUM (
-  'SUCCESS',
-  'INVALID_VPA',
-  'INVALID_DEVICE',
-  'DEVICE_ALREADY_BINDED',
-  'VPA_ALREADY_BINDED',
-  'VPA_NOT_AVAILABLE',
-  'DEVICE_VPA_NOT_BINDED',
-  'DEVICE_HAS_DEACTIVATED_BANK',
-  'DEVICE_HAS_DEACTIVATED_BRANCH',
-  'DEVICE_HAS_DEACTIVATED_MERCHANT',
-  'BANK_VPA_UNMATCHED_BID',-----allocated banks bid and vpa bid unmatched
-  'INVALID_BANK',
-  'BANK_ALREADY_ALLOCATED',
-  'DEVICE_HAS_DEACTIVATED_VPA',
-  'VPA_BANK_UNMATCHED_BID',-----allocated vpa and banks bid unmatched
-  'INVALID_BRANCH',
-  'BRANCH_ALREADY_ALLOCATED',
-  'BANK_BRANCH_UNMATCHED_BID',------allocated banks and branch bid unmatched
-  'INVALID_MERCHANT',
-  'MERCHANT_ALREADY_ALLOCATED',
-  'BANK_MERCHANT_UNMATCHED_BID',------allocated banks and merchant bid unmatched
-  'INVALID_EVENT'
-);
 
 CREATE OR REPLACE FUNCTION registry.sb_validator(
 	evt VARCHAR,
@@ -56,10 +21,6 @@ BEGIN
     CASE 
 	-------------------------------BIND_DEVICE---------------------------------------------------------------
         WHEN evt='BIND_DEVICE' THEN
-
-			IF NOT EXISTS (SELECT vpa.vid FROM registry.vpa WHERE bid = b_id AND NOT EXISTS (SELECT 1 FROM registry.sb WHERE sb.vid = vpa.vid AND isd = false and isa = true)LIMIT 1) THEN
-				messages := array_append(messages, 'VPA_NOT_AVAILABLE'::registry.sb_msgs);
-			END IF;
 
             IF NOT EXISTS (SELECT 1 FROM registry.devices WHERE did = d_id AND isd = FALSE) THEN
                 messages := array_append(messages, 'INVALID_DEVICE'::registry.sb_msgs);

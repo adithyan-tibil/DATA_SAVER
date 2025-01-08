@@ -598,14 +598,14 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- SELECT * FROM registry.sb_iterator(
--- 	ARRAY[1],
--- 	'BIND_DEVICE',
--- 	ARRAY[]::TEXT[],
--- 	ARRAY[100]::INTEGER[],
--- 	ARRAY[7]::INTEGER[],
--- 	ARRAY[]::INTEGER[],
--- 	ARRAY[]::INTEGER[],
--- 	ARRAY['hanxs']::TEXT[],
--- 	ARRAY[1]::INTEGER[]
--- )
+SELECT * FROM registry.sb_iterator(
+	ARRAY[1],
+	'BIND_DEVICE',
+	ARRAY[]::TEXT[],
+	ARRAY[100]::INTEGER[],
+	ARRAY[7]::INTEGER[],
+	ARRAY[]::INTEGER[],
+	ARRAY[]::INTEGER[],
+	ARRAY['hanxs']::TEXT[],
+	ARRAY[1]::INTEGER[]
+)
