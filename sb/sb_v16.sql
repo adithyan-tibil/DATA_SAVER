@@ -1,8 +1,9 @@
 DROP FUNCTION IF EXISTS 
     registry.sb_validator,
     registry.sb_validator_writer,
-    registry.sb_iterator
+    registry.sb_iterator;
 
+ALTER TYPE registry.sb_msgs ADD VALUE 'UNABLE_TO_ALLOCATED';
 
 CREATE OR REPLACE FUNCTION registry.sb_validator(
 	evt VARCHAR,
@@ -113,6 +114,7 @@ BEGIN
 		----------------------------------ALLOCATE_TO_BRANCH----------------------------------------------------------
 		
         WHEN evt='ALLOCATE_TO_BRANCH' THEN
+		
             IF NOT EXISTS (SELECT 1 FROM registry.branches WHERE brid = br_id AND isd = FALSE) THEN
                 messages := array_append(messages, 'INVALID_BRANCH'::registry.sb_msgs);
             END IF;
@@ -154,9 +156,15 @@ BEGIN
         		END IF;
     		END IF;
 
-		------------------------------------------ALLOCATE_TO_MERCHANT--------------------------------------------------
+		------------------------------------------ALLOCATE_TO_MERCHANT--------------------------------------------------		
+
 
         WHEN evt='ALLOCATE_TO_MERCHANT' THEN
+
+			IF EXISTS ( SELECT 1 FROM registry.sb WHERE mid IS NULL OR bid IS NULL OR brid IS NULL OR vid IS NULL ) THEN
+                messages := array_append(messages, 'UNABLE_TO_ALLOCATE'::registry.sb_msgs);
+            END IF;
+			
             IF NOT EXISTS (SELECT 1 FROM registry.merchants WHERE mpid = mp_id AND isd = FALSE) THEN
                 messages := array_append(messages, 'INVALID_MERCHANT'::registry.sb_msgs);
             END IF;
@@ -507,7 +515,7 @@ BEGIN
        			SET 
            			sbevt = 'REALLOCATED_TO_BRANCH', 
                     mid = NULL,
-					brid = br_id
+					brid = br_id,
 					eby = e_by,
 					eid = e_id,
 					eat = CURRENT_TIMESTAMP
@@ -586,14 +594,15 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 SELECT * FROM registry.sb_iterator(
 	ARRAY[1],
-	'BIND_DEVICE',
+	'REALLOCATE_TO_MERCHANT',
 	ARRAY[]::TEXT[],
-	ARRAY[100]::INTEGER[],
 	ARRAY[7]::INTEGER[],
 	ARRAY[]::INTEGER[],
 	ARRAY[]::INTEGER[],
+	ARRAY[3]::INTEGER[],
 	ARRAY['hanxs']::TEXT[],
 	ARRAY[1]::INTEGER[]
 )
