@@ -17,13 +17,13 @@ def store_queries_to_file(num_rows):
         values_list = []
 
         for i in range(num_rows):
-            vpa = 'vpa@aqz' + str(i + 1)
+            vpa = 'vpa@aqz' + str(i + 200001)
             bid = fake.random.choice(bid_list)
-            values_list.append(f"({i + 1},'{vpa}', {bid}, 'VPA_ONBOARDED', 1, 1)")
+            values_list.append(f"({i + 200001},'{vpa}', {bid}, 'VPA_ONBOARDED', 1, 1)")
 
         query_values = ",\n".join(values_list)
         final_query = query_base + query_values + ";"
 
         f.write(final_query + "\n")
 
-store_queries_to_file(50000)
+store_queries_to_file(100000)
