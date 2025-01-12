@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% include 'temp2.html' %}
+    <h1 style="height:20px;color:blue;display:flex;justify-content:center">Welcome, {{ username }}!</h1>
+    <ul style="height:20px">
+        {% for item in items %}
+            <li style="height:44px">{{ item }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
