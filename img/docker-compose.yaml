@@ -1,0 +1,30 @@
+version: '3'
+services:
+  flask_app:
+    container_name: flask_app
+    image: api/college:v1
+    build: ../Training/tasks/ASSIGNMENT/api1
+    ports:
+      - "7777:7777"
+    environment:
+      - DB_URL=postgresql://postgres:tibil123@flask_db:5432/api
+    depends_on:
+      - flask_db
+
+  flask_db:
+    container_name: flask_db
+    image: postgres:14
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=tibil123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
+
+
+
