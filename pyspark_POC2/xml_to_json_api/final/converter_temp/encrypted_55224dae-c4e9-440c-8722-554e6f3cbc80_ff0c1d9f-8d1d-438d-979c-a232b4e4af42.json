@@ -1,0 +1,22 @@
+{
+    "bookstore": {
+        "book": [
+            {
+                "title": "Harry Potter and the Philosopher's Stone",
+                "author": "J.K. Rowling",
+                "genre": "Fantasy",
+                "price": "29.99",
+                "publish_date": "1997-06-26",
+                "description": "A young boy discovers he is a wizard and attends a magical school."
+            },
+            {
+                "title": "The Hobbit",
+                "author": "J.R.R. Tolkien",
+                "genre": "Fantasy",
+                "price": "22.99",
+                "publish_date": "1937-09-21",
+                "description": "A hobbit goes on an adventure with a group of dwarves."
+            }
+        ]
+    }
+}

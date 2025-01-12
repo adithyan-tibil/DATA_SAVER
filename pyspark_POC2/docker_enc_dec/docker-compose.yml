@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  converter_api:
+    build:
+      context: ./converter
+    ports:
+      - "5001:5001"
+    environment:
+      - CONVERTED_JSON_FOLDER=/app/json_files
+
+  generator_api:
+    build:
+      context: ./generator
+    ports:
+      - "5002:5002"
+    environment:
+      - TEMP_FOLDER=/app/enc_files
+      - CONVERTER_API_URL=http://converter_api:5002/convert
+    depends_on:
+      - converter_api

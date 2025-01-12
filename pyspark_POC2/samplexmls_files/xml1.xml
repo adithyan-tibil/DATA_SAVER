@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookstore>
+    <book>
+        <title>Harry Potter and the Philosopher's Stone</title>
+        <author>J.K. Rowling</author>
+        <genre>Fantasy</genre>
+        <price>29.99</price>
+        <publish_date>1997-06-26</publish_date>
+        <description>A young boy discovers he is a wizard and attends a magical school.</description>
+    </book>
+    <book>
+        <title>The Hobbit</title>
+        <author>J.R.R. Tolkien</author>
+        <genre>Fantasy</genre>
+        <price>22.99</price>
+        <publish_date>1937-09-21</publish_date>
+        <description>A hobbit goes on an adventure with a group of dwarves.</description>
+    </book>
+</bookstore>

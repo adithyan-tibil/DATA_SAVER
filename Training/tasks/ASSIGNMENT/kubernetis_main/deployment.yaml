@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-crud-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-crud-api
+  template:
+    metadata:
+      labels:
+        app: my-crud-api
+    spec:
+      containers:
+      - name: my-crud-api
+        image: adithyan17/college:v1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRES_URL
+          value: "postgresql://postgres:root@my-postgres:5432/api"

@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-postgres
+  template:
+    metadata:
+      labels:
+        app: my-postgres
+    spec:
+      containers:
+      - name: my-postgres
+        image: postgres:13
+        imagePullPolicy: IfNotPresent  # Use IfNotPresent to avoid pulling the image if already available
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "api"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "root"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## postgres-deployment.yaml
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: my-postgres
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: my-postgres
+#  template:
+#    metadata:
+#      labels:
+#        app: my-postgres
+#    spec:
+#      containers:
+#      - name: my-postgres
+#        image: postgres:13
+#        env:
+#        - name: POSTGRES_USER
+#          value: postgres
+#        - name: POSTGRES_PASSWORD
+#          value: root
+#        - name: POSTGRES_DB
+#          value: api
+#        ports:
+#        - containerPort: 5432
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: my-postgres
+#spec:
+#  selector:
+#    app: my-postgres
+#  ports:
+#  - protocol: TCP
+#    port: 5432
+#    targetPort: 5432

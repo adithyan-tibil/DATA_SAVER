@@ -1,0 +1,71 @@
+{
+    "XML": {
+        "MessageType": "1200",
+        "ProcCode": "$ProcCode$",
+        "NotificationId": "$NotificationId$",
+        "TargetMobile": "$TargetMobile$",
+        "TxnType": "$TxnType$",
+        "ProfileId": "$ProfileId$",
+        "UpiTranlogId": "$UpiTranlogId$",
+        "ExpireAfter": "$ExpireAfter$",
+        "Payee": {
+            "Name": "$PayeeName$",
+            "Mobile": "$PayeeMobile$",
+            "VA": "$PayeeVA$",
+            "RespCode": "$payeeRespCode$",
+            "MccCode": "$payeeMccCode$",
+            "MccType": "$payeeMccType$",
+            "AccountNo": "$payeeAccountNo$",
+            "Ifsc": "$payeeIfsc$",
+            "RevRespCode": "$payeeRevRespCode$",
+            "VerifiedMerchant": "$verifiedMerchant$",
+            "#text": "$payeeMid$"
+        },
+        "Payer": {
+            "Name": "$PayerName$",
+            "Mobile": "$PayerMobile$",
+            "VA": "$PayerVA$",
+            "AccountNo": "$payerAccountNo$",
+            "Ifsc": "$payerIfsc$",
+            "AccountType": "$payerAccountType$",
+            "RespCode": "$payerRespCode$",
+            "RevRespCode": "$payerRevRespCode$",
+            "GstIncentiveApplicable": "$GstIncentiveApplicable$",
+            "#text": "$payerMid$"
+        },
+        "Amount": "$Amount$",
+        "ChannelCode": "$ChannelCode$",
+        "TxnStatus": "$TxnStatus$",
+        "TxnInitDate": "$TxnInitDate$",
+        "TxnCompletionDate": "$TxnCompletionDate$",
+        "Note": "$Note$",
+        "DeviceId": "$DeviceId$",
+        "OriginalTxnId": "$OriginalTxnId$",
+        "RefId": "$RefId$",
+        "RefUrl": "$RefUrl$",
+        "Rrn": "$Rrn$",
+        "ResponseCode": "$ResponseCode$",
+        "NeedPayerGstConsent": "$NeedPayerGstConsent$",
+        "IsFromBlockedVpa": "$IsFromBlockedVpa$",
+        "MandateMetadat": {
+            "Umn": "$Umn$",
+            "SequenceNumber": "$SequenceNumber$"
+        },
+        "Gstin": "$Gstin$",
+        "Gst": {
+            "Amount": "$GstAmount$",
+            "Cgst": "$CgstAmount$",
+            "Sgst": "$SgstAmount$",
+            "Igst": "$IgstAmount$",
+            "Cess": "$CessAmount$"
+        },
+        "Invoice": {
+            "InvoiceNumber": "$InvoiceNumber$",
+            "InvoiceDate": "$InvoiceDate$",
+            "InvoiceUrl": "$InvoiceUrl$"
+        },
+        "payeePspReqTxnConfirmationTime": "$payeePspReqTxnConfirmationTime$",
+        "payeePspTxnConfirmationCallbackInitiationTime": "$payeePspTxnConfirmationCallbackInitiationTime$",
+        "#text": "$RiskScores$"
+    }
+}
