@@ -1,0 +1,5 @@
+v1
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/input/example_file_1.txt","timestamp":1728909850342,"batchId":0}
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/input/example_file_2.txt","timestamp":1728909850342,"batchId":0}
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/input/example_file_3.txt","timestamp":1728909850342,"batchId":0}
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/input/example_file_4.txt","timestamp":1728910593389,"batchId":0}

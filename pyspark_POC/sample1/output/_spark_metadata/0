@@ -1,0 +1,5 @@
+v1
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/output/part-00000-fa8cb865-641d-4dbc-9f04-6af016bcb439-c000.json","size":120,"isDir":false,"modificationTime":1728926029536,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/output/part-00001-7e6cea7d-5905-42cb-a994-9f2b205cd99b-c000.json","size":73,"isDir":false,"modificationTime":1728926029542,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/output/part-00002-3d8f1d4a-a313-49ad-a0a9-04b8828c3bc3-c000.json","size":62,"isDir":false,"modificationTime":1728926029542,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///home/aditya/adithyan/pyspark_POC/sample1/output/part-00003-2b146a1f-c345-48dc-86ad-d9131cd4b7c9-c000.json","size":54,"isDir":false,"modificationTime":1728926029539,"blockReplication":1,"blockSize":33554432,"action":"add"}

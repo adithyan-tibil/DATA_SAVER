@@ -1,0 +1,2 @@
+This is example file number 3.
+This file is used for testing the PySpark streaming application.
