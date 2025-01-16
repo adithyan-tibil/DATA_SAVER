@@ -2,7 +2,7 @@ import psycopg2
 from faker import Faker
 
 def store_queries_to_file(num_rows):
-    filename = '/home/aditya/adithyan/TIBIL_GIT/DATA_SAVER/python_dummydata_DMS/datastore/queries.txt'
+    filename = '/home/adithyan/adithyan/DATA_BACKUP/GIT_BACKUP/DATA_SAVER/python_dummydata_DMS/datastore/queries.txt'
 
     # Data generation setup
     fake = Faker()
