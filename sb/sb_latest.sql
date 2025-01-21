@@ -504,6 +504,7 @@ CREATE OR REPLACE FUNCTION registry.sb_iterator(
     b_id INT[],
     br_id INT[],
 	mp_id INT[],
+	quatity INT,
     e_by TEXT[],
     eid INT[]
 ) 
@@ -521,6 +522,7 @@ BEGIN
             COALESCE(b_id[i],NULL),
 			COALESCE(br_id[i],NULL),
 			COALESCE(mp_id[i],NULL),
+			COALESCE(quantity,NULL)
             e_by[i], 
             eid[i]
         ); 
