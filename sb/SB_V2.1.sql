@@ -308,7 +308,7 @@ RETURNS TABLE (
     status INTEGER, 
     msgs registry.sb_msgs[], 
     id_headers TEXT[], 
-    id_values TEXT[], 
+    id_values VARCHAR[], 
     e_at TIMESTAMP
 ) AS $$
 DECLARE
@@ -320,7 +320,7 @@ DECLARE
     validator_result registry.sb_msgs[];
     id_values RECORD;
 	result_values RECORD;
-    headers_array TEXT[] := ARRAY['sid', 'vid', 'did', 'bid', 'brid', 'mid']; 
+    headers_array TEXT[] := ARRAY['sb_id', 'vpa_id', 'device_id', 'bank_id', 'branch_id', 'merchant_id']; 
 
 BEGIN
 	SELECT vid INTO v_id FROM registry.vpa WHERE vpa = _vpa ;
@@ -332,7 +332,7 @@ BEGIN
     validator_result := registry.sb_validator(evt, v_id, d_id, b_id, br_id, mp_id);
 
     IF array_length(validator_result, 1) > 0 THEN
-        RETURN QUERY SELECT rowid, 0, validator_result, ARRAY[]::text[], ARRAY[]::integer[], NULL::timestamp; 
+        RETURN QUERY SELECT rowid, 0, validator_result, ARRAY[]::text[], ARRAY[]::varchar[], NULL::timestamp; 
    		RETURN; 
 	END IF;
 
@@ -561,11 +561,11 @@ BEGIN
         v.vpa, d.dname, b.bname, br.brname, m.mname
         INTO result_values
         FROM registry.sb sb
-        LEFT JOIN registry.vpa v ON sb.vid = id_values.vid
-        LEFT JOIN registry.devices d ON sb.did = id_values.did
-        LEFT JOIN registry.banks b ON sb.bid = id_values.bid
-        LEFT JOIN registry.branches br ON sb.brid = id_values.brid
-        LEFT JOIN registry.merchants m ON sb.mid = id_values.mid
+        LEFT JOIN registry.vpa v ON sb.vid = v.vid
+        LEFT JOIN registry.devices d ON sb.did = d.did
+        LEFT JOIN registry.banks b ON sb.bid = b.bid
+        LEFT JOIN registry.branches br ON sb.brid = br.brid
+        LEFT JOIN registry.merchants m ON sb.mid = m.mpid
         WHERE sb.did = d_id AND sb.isd = FALSE;
 
 		
@@ -593,7 +593,7 @@ CREATE OR REPLACE FUNCTION registry.sb_iterator(
     e_by TEXT[],
     eid INT[]
 ) 
-RETURNS TABLE (row_id INTEGER, status INTEGER, msgs registry.sb_msgs[],id_headers TEXT[],id_values TEXT[],eat timestamp) AS $$
+RETURNS TABLE (row_id INTEGER, status INTEGER, msgs registry.sb_msgs[],id_headers TEXT[],id_values VARCHAR[],eat timestamp) AS $$
 DECLARE
     i INT;
 BEGIN
@@ -616,16 +616,15 @@ $$ LANGUAGE plpgsql;
 
 
 
-
-
 SELECT * FROM registry.sb_iterator(
 	ARRAY[1],
 	'ALLOCATE_TO_MERCHANT',
 	ARRAY[]::TEXT[],
-	ARRAY['device_200']::TEXT[],
+	ARRAY['device_20001']::TEXT[],
 	ARRAY[]::TEXT[],
 	ARRAY[]::TEXT[],
-	ARRAY['merchant_200']::TEXT[],
+	ARRAY['merchant_20001']::TEXT[],
 	ARRAY['hanxs']::TEXT[],
 	ARRAY[1]::INTEGER[]
 )
+

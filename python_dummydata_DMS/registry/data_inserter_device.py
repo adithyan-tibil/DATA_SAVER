@@ -24,6 +24,7 @@ def insert_devices(num_rows):
         # Generate a unique device name
         dname = 'device_'+''+str(i)
         dnames.add(dname)
+        did = i+1
         
         # Select random values for mfid, fid, and mdid
         mfid = fake.random.choice(mfid_list)
@@ -32,14 +33,14 @@ def insert_devices(num_rows):
 
         # Insert query
         query = """
-        INSERT INTO registry.devices (dname, mfid, fid, mdid, devt, eid, eby)
-        VALUES (%s, %s, %s, %s, %s, %s, %s);
+        INSERT INTO registry.devices (did,dname, mfid, fid, mdid, devt, eid, eby)
+        VALUES (%s,%s, %s, %s, %s, %s, %s, %s);
         """
-        cursor.execute(query, (dname, mfid, fid, mdid, 'DEVICE_ONBOARDED', 1, 1))
+        cursor.execute(query, (did,dname, mfid, fid, mdid, 'DEVICE_ONBOARDED', 1, 1))
 
     # Commit and close
     conn.commit()
     cursor.close()
     conn.close()
 
-insert_devices(20)  # Inserts 100 rows into the table
+insert_devices(200)  # Inserts 100 rows into the table
