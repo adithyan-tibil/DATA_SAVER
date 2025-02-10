@@ -320,7 +320,7 @@ DECLARE
     validator_result registry.sb_msgs[];
     id_values RECORD;
 	result_values RECORD;
-    headers_array TEXT[] := ARRAY['sb_id', 'vpa_id', 'device_id', 'bank_id', 'branch_id', 'merchant_id']; 
+    headers_array TEXT[] := ARRAY[ 'device_id','vpa_id', 'bank_id', 'branch_id', 'merchant_id']; 
 
 BEGIN
 	SELECT vid INTO v_id FROM registry.vpa WHERE vpa = _vpa ;
@@ -615,16 +615,16 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-
 SELECT * FROM registry.sb_iterator(
 	ARRAY[1],
 	'ALLOCATE_TO_MERCHANT',
 	ARRAY[]::TEXT[],
-	ARRAY['device_20001']::TEXT[],
+	ARRAY['device_100011']::TEXT[],
 	ARRAY[]::TEXT[],
 	ARRAY[]::TEXT[],
-	ARRAY['merchant_20001']::TEXT[],
+	ARRAY['merchant_100011']::TEXT[],
 	ARRAY['hanxs']::TEXT[],
 	ARRAY[1]::INTEGER[]
 )
+
 
