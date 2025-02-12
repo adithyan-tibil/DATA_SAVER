@@ -63,14 +63,6 @@ ALTER TABLE registry.model_v ALTER COLUMN eby TYPE VARCHAR;
 --------------------------------------------------------------------------------------------------------------------------------
 
 
-CREATE TYPE registry.banks_msgs AS ENUM (
-		'SUCCESS_INSERT',
-		'SUCCESS_UPDATE',
-		'BANK_REPEATED',
-		'INVALID_BANK',
-		'EMPTY_UPDATE'
-);
-		
 
 
 CREATE OR REPLACE FUNCTION registry.bank_validator(b_name VARCHAR,b_id INTEGER,b_addr VARCHAR,b_info JSONB) 
@@ -288,16 +280,6 @@ $$ LANGUAGE plpgsql;
 
 -----------------------------------------------ONBOARD_BRANCH-----------------------------------
 
-CREATE TYPE registry.branches_msgs AS ENUM (
-		'SUCCESS_INSERT',
-		'BRANCH_REPEATED',
-		'INVALID_BRANCH',
-		'INVALID_BANK',
-		'SUCCESS_UPDATE',
-		'EMPTY_UPDATE'
-);
-
-
 
 CREATE OR REPLACE FUNCTION registry.branch_validator(br_name VARCHAR,b_id INTEGER,br_id INTEGER,br_addr VARCHAR,br_info jsonb) 
 RETURNS registry.branches_msgs[] AS $$
@@ -414,16 +396,6 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------------------------ONBOARD_DEVICES------------------------------------------------------------
-CREATE TYPE registry.devices_msgs AS ENUM (
-		'SUCCESS_INSERT',
-		'SUCCESS_UPDATE',
-		'DEVICE_REPEATED',
-		'INVALID_DEVICE',
-		'INVALID_MF',
-		'INVALID_FIRMWARE',
-		'INVALID_MODEL',
-		'EMPTY_UPDATE'
-);
 
 
 CREATE OR REPLACE FUNCTION registry.device_validator(d_id INTEGER,d_name VARCHAR,mf_id INTEGER,md_id INTEGER,f_id INTEGER ) 
@@ -630,14 +602,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--------------------------------------------ONBOARD_MODEL------------------------------------------------------------
-CREATE TYPE registry.models_msgs AS ENUM (
-		'SUCCESS_INSERT',
-		'MODEL_REPEATED',
-		'INVALID_MF',
-		'INVALID_FIRMWARE'
-);
-		
+-------------------------------------------ONBOARD_MODEL------------------------------------------------------------	
 
 
 CREATE OR REPLACE FUNCTION registry.model_validator(md_name VARCHAR,mf_id INTEGER,f_id INTEGER) 
@@ -725,12 +690,6 @@ $$ LANGUAGE plpgsql;
 
 
 -------------------------------------------ONBOARD_VPA------------------------------------------------------------
-
-CREATE TYPE registry.vpa_msgs AS ENUM (
-		'SUCCESS_INSERT',
-		'VPA_REPEATED',
-		'INVALID_BANK'
-);
 	
 
 
