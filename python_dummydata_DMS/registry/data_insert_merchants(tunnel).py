@@ -11,20 +11,20 @@ def store_queries_to_file(num_rows):
 
     with open(filename, 'w') as f:
         query_base = """
-        INSERT INTO registry.merchants (mpid, mname, minfo, msid, bid, brid, mevt, eid, eby)
+        INSERT INTO registry.merchants (mname, minfo, msid, bid, brid, mevt, eid, eby)
         VALUES
         """
         values_list = []
 
         for i in range(num_rows):
-            mname = 'merchant_' + str(i + 200001)
+            mname = 'merchant_' + str(i + 1)
             mnames.add(mname)
             minfo = '{"accNo": 12345678 , "phno": "+123456789012", "accHolderName": "abc@gm"}'
             msid = fake.random.randint(100, 9999)
             brid = 1
-            bid = fake.random.choice(bid_list)
+            bid = 1
             
-            values_list.append(f"({i + 200001}, '{mname}', '{minfo}', {msid}, {bid}, {brid}, 'MERCHANT_ONBOARDED', 1, 1)")
+            values_list.append(f"('{mname}', '{minfo}', {msid}, {bid}, {brid}, 'MERCHANT_ONBOARDED', 1, 1)")
 
         query_values = ",\n".join(values_list)
 
@@ -32,4 +32,4 @@ def store_queries_to_file(num_rows):
 
         f.write(final_query + "\n")
 
-store_queries_to_file(100000)  
+store_queries_to_file(100)  
