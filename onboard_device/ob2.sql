@@ -13,20 +13,24 @@ CREATE OR REPLACE FUNCTION registry.onboard_device(
     event_bys TEXT[],
     eids INT[]
 ) 
-RETURNS TABLE (row_id INTEGER, status INTEGER, msg registry.devices_msgs[], did VARCHAR) AS
+RETURNS TABLE (row_id INTEGER, status INTEGER,event TEXT[], msg TEXT[], did VARCHAR) AS
 $$
 DECLARE
-    -- allocatebankmsgs TEXT[];
-    -- allocatebranchmsgs TEXT[];
-    -- allocatemerchantmsgs TEXT[];
+    row_ids INT[];
+    onboardmsgs TEXT[];
+    bindmsgs TEXT[];
+    allocatebankmsgs TEXT[];
+    allocatebranchmsgs TEXT[];
+    allocatemerchantmsgs TEXT[];
 
-    -- allocatebanksts INTEGER;
-    -- allocatebranchsts INTEGER;
-    -- allocatemerchantsts INTEGER;
+    onboardsts INT[];
+    bindsts INT[];
+    allocatebanksts INT[];
+    allocatebranchsts INT[];
+    allocatemerchantsts INT[];
 BEGIN
     IF onboard_status = 'inventory' THEN
-        RETURN QUERY 
-        SELECT * FROM registry.device_iterator(
+        SELECT msg,status INTO onboardmsgs,onboardsts FROM registry.device_iterator(
             rowid,
             ARRAY[]::INT[], 
             mf_name,
@@ -41,8 +45,7 @@ BEGIN
     ELSIF onboard_status = 'allocated' THEN
         BEGIN
             -- Onboard device
-            RETURN QUERY 
-            SELECT * FROM registry.device_iterator(
+            SELECT row_id,msgs,status INTO row_ids,bindmsgs,bindsts FROM registry.device_iterator(
                 rowid,
                 ARRAY[]::INT[],
                 mf_name,
@@ -54,7 +57,7 @@ BEGIN
                 eids
             ); 
 			-- Bind Device
-            PERFORM * FROM registry.sb_iterator(
+            SELECT msgs,status INTO  FROM registry.sb_iterator(
                 rowid,
                 'BIND_DEVICE',
                 vpa,	
@@ -116,13 +119,13 @@ $$ LANGUAGE plpgsql;
 
 
 SELECT * FROM registry.onboard_device(
-    'allocate',
+    'inventory',
     ARRAY[1]::INT[],
     ARRAY['mf_1']::TEXT[],
-    ARRAY['device_1']::TEXT[],
+    ARRAY['device_2']::TEXT[],
     ARRAY['model_1']::TEXT[],
     ARRAY['firmware_1']::TEXT[],
-    ARRAY['123456789']::TEXT[],
+    ARRAY['123456781']::TEXT[],
     ARRAY['vpa@aqz2']::TEXT[],      -- Bind device
     ARRAY['bank_1']::TEXT[],   -- Allocate to bank
     ARRAY['branch_1']::TEXT[],  -- Allocate to branch
