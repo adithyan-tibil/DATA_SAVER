@@ -21,7 +21,7 @@ RETURNS TABLE (
     allocate_bank_msgs registry.sb_msgs[],
     allocate_branch_msgs registry.sb_msgs[],
     allocate_merchant_msgs registry.sb_msgs[],
-    device_ids TEXT
+    device_ids VARCHAR
 ) AS
 $$
 DECLARE
@@ -152,13 +152,13 @@ BEGIN
                 tor.onboard_msgs, 
                 bdr.bind_device_msgs,
                 abr.allocate_bank_msgs, 
-                abr.allocate_branch_msgs, 
+                abrr.allocate_branch_msgs, 
                 amr.allocate_merchant_msgs, 
                 tor.device_id
             FROM temp_onboard_result tor
             JOIN temp_bind_device_result bdr ON tor.row_ids = bdr.row_ids
             JOIN temp_allocate_bank_result abr ON tor.row_ids = abr.row_ids
-            JOIN temp_allocate_branch_result abr ON tor.row_ids = abr.row_ids
+            JOIN temp_allocate_branch_result abrr ON tor.row_ids = abrr.row_ids
             JOIN temp_allocate_merchant_result amr ON tor.row_ids = amr.row_ids;
 		END;
     END IF;
