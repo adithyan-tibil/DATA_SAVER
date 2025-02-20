@@ -132,7 +132,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-
 SELECT * FROM registry.onboard_device(
     'allocated',
     ARRAY[1,2]::INT[],
