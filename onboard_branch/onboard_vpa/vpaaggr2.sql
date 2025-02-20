@@ -53,13 +53,9 @@ BEGIN
     -- Return the combined result with messages from both tables
     RETURN QUERY 
     SELECT sb.row_ids, sb.statuses, 
-           (
-               SELECT (sb.sb_msgs) 
-           ) AS sb_messages, 
-		   (
-               SELECT (vp.vpa_msgs)
-           ) AS onboard_messages, 
-           (SELECT vp.vid) 
+           sb.sb_msgs, 
+		   vp.vpa_msgs, 
+            vp.vid
     FROM temp_sb_result sb
     JOIN temp_vpa_result vp ON sb.row_ids=vp.row_ids;
     
