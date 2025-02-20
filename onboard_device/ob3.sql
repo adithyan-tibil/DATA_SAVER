@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION registry.onboard_device(
     event_bys TEXT[],
     eids INT[]
 ) 
-RETURNS TABLE (row_id INTEGER, statuses INT, onboardmsgs TEXT[],allocatebankmsgs TEXT[],allocatebranchmsgs TEXT[],allocatemerchantmsgs TEXT[], device_ids TEXT) AS
+RETURNS TABLE (row_id INTEGER, statuses INT, onboardmsgs TEXT[],allocatebankmsgs TEXT[],allocatebranchmsgs TEXT[],allocatemerchantmsgs TEXT device_ids TEXT) AS
 $$
 DECLARE
     onboardmsgs TEXT[][];
@@ -34,7 +34,7 @@ DECLARE
     -- event_names TEXT[] := ARRAY['DEVICE_ONBOARD', 'BIND_DEVICE', 'ALLOCATE_TO_BANK', 'ALLOCATE_TO_BRANCH', 'ALLOCATE_TO_MERCHANT'];
     -- all_msgs TEXT[][]; 
 
-    -- idx INTEGER;
+    idx INTEGER;
 
 BEGIN
     IF onboard_status = 'inventory' THEN 
@@ -129,11 +129,11 @@ BEGIN
                 event_bys,
                 eids
             );
-
-            
-
         END;    
     END IF;
+
+	RETURN
+
 
 END;
 $$ LANGUAGE plpgsql;

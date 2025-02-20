@@ -32,7 +32,7 @@ BEGIN
     	messages := array_append(messages, 'INVALID_DEVICE'::registry.vpa_msgs);
 	END IF;
 
-	IF NOT EXISTS (SELECT 1 FROM registry.sb WHERE did = d_id AND vid IS NULL AND isd = 'false') THEN
+	IF EXISTS (SELECT 1 FROM registry.sb WHERE did = d_id AND vid IS NOT NULL AND isd = 'false') THEN
     	messages := array_append(messages, 'DEVICE_HAS_VPA'::registry.vpa_msgs);
 	END IF;
 

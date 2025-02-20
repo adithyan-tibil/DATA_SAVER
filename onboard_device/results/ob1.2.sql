@@ -118,3 +118,17 @@ CREATE TYPE registry.device_onboard_result AS (
     msg TEXT[],
     did VARCHAR
 );
+
+------------------------RESULTS 5 ROWS PER DEVICE/ROW_ID------------------------
+
+"row_id"	"status"	"msg"	"did"
+1	1	"{SUCCESS_INSERT}"	"device_201"
+2	0	"{INVALID_FIRMWARE,INVALID_MF,INVALID_MODEL}"	
+1	1	"{SUCCESS}"	
+2	0	"{INVALID_DEVICE}"	
+1	1	"{SUCCESS}"	
+2	0	"{INVALID_BANK,INVALID_DEVICE}"	
+1	1	"{SUCCESS}"	
+2	0	"{INVALID_BRANCH,INVALID_DEVICE}"	
+1	0	"{UNABLE_TO_ALLOCATE}"	
+2	0	"{INVALID_MERCHANT,INVALID_DEVICE}"	
