@@ -147,3 +147,9 @@ SELECT * FROM registry.onboard_device(
     ARRAY['abc','abc']::TEXT[],
     ARRAY[1111,1111]::INT[]
 ) 
+
+------------------------------RESULTS--------------------------------
+
+"row_ids"	"statuses"	"onboard_msgs"	"bind_device_msgs"	"allocate_bank_msgs"	"allocate_branch_msgs"	"allocate_merchant_msgs"	"device_ids"
+1	1	"{{DEVICE_REPEATED,IMEI_REPEATED},{DEVICE_REPEATED,IMEI_REPEATED}}"	"{{SUCCESS},{SUCCESS}}"	"{{SUCCESS},{SUCCESS}}"	"{{SUCCESS},{SUCCESS}}"	"{{SUCCESS},{SUCCESS}}"	"device_10"
+2	1	"{{DEVICE_REPEATED,IMEI_REPEATED},{DEVICE_REPEATED,IMEI_REPEATED}}"	"{{SUCCESS},{SUCCESS}}"	"{{SUCCESS},{SUCCESS}}"	"{{SUCCESS},{SUCCESS}}"	"{{SUCCESS},{SUCCESS}}"	"device_11"
