@@ -1,6 +1,8 @@
+------------------ Single Temp table
+
+
 CREATE OR REPLACE FUNCTION registry.onboard_device(
     onboard_status VARCHAR,
-    allocate_to VARCHAR,
     rowid INT[],
     mf_name TEXT[],
     d_names TEXT[],
@@ -31,6 +33,23 @@ $$
 DECLARE
     final_status INTEGER;
 BEGIN
+
+  IF onboard_status = 'inventory' THEN
+        RETURN QUERY 
+        SELECT row_id, status, msg, ARRAY[]::registry.sb_msgs[],ARRAY[]::registry.sb_msgs[], ARRAY[]::registry.sb_msgs[], ARRAY[]::registry.sb_msgs[], did 
+        FROM registry.device_iterator(
+            rowid,
+            ARRAY[]::INT[], 
+            mf_name,
+            d_names,
+            md_name,
+            f_name,
+            imei,
+            event_bys,   
+            eids
+        );
+  ELSIF onboard_status = 'allocated' THEN
+   BEGIN
     CREATE TEMP TABLE temp_onboard_result (
         row_id INTEGER PRIMARY KEY,
         onb_status INTEGER DEFAULT NULL,
@@ -175,7 +194,8 @@ BEGIN
         tor.allocate_branch_response, 
         tor.allocate_merchant_response
     FROM temp_onboard_result tor;
-
+  END;
+  END IF;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -184,11 +204,11 @@ SELECT * FROM registry.onboard_device(
     'allocated',
     ARRAY[1,2]::INT[],
     ARRAY['mf_1','mf_1']::TEXT[],
-    ARRAY['device_39','device_1011']::TEXT[],
+    ARRAY['device_33','device_1011']::TEXT[],
     ARRAY['model_1','model_1']::TEXT[],
     ARRAY['firmware_1','firmware_1']::TEXT[],
-    ARRAY['123456789abc39','123456789e']::TEXT[],
-    ARRAY['vpa@aqz139','vpa@aqz11']::TEXT[],      -- Bind device
+    ARRAY['123456789abc33','123456789e']::TEXT[],
+    ARRAY['vpa@aqz133','vpa@aqz11']::TEXT[],      -- Bind device
     ARRAY['bank_1','bank_1']::TEXT[],   -- Allocate to bank
     ARRAY['branch_1','branch_1']::TEXT[],  -- Allocate to branch
     ARRAY['merchant_10','merchant_11']::TEXT[],   -- Allocate to merchant
