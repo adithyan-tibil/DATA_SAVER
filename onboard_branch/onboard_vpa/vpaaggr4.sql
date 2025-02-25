@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION registry.onboard_vpa(
     eids INT[]
 )
 RETURNS TABLE (
-    row_ids INTEGER, 
+    a_row_id INTEGER, 
     final_status INTEGER, 
     response VARCHAR, 
     steps TEXT[], 
@@ -20,7 +20,6 @@ $$
 DECLARE
     f_status INTEGER := 0;
 BEGIN
-    -- Temporary table for vpa_iterator result
     CREATE TEMP TABLE temp_vpa_result (
         row_ids INTEGER, 
         create_status INTEGER,
@@ -28,7 +27,6 @@ BEGIN
         vpa_msgs registry.vpa_msgs[]
     ) ON COMMIT DROP;
     
-    -- Store the result from registry.vpa_iterator
     INSERT INTO temp_vpa_result (row_ids, create_status, vid, vpa_msgs)
     SELECT row_id, status, vid, msg FROM registry.vpa_iterator(
         rowid,
@@ -39,14 +37,12 @@ BEGIN
         eids
     );
 
-    -- Temporary table for sb_iterator result
     CREATE TEMP TABLE temp_sb_result (
         row_ids INTEGER, 
         bind_status INTEGER, 
         sb_msgs registry.sb_msgs[]
     ) ON COMMIT DROP;
 
-    -- Store the result from registry.sb_iterator
     INSERT INTO temp_sb_result (row_ids, bind_status, sb_msgs)
     SELECT row_id, status, msgs FROM registry.sb_iterator(
         rowid,
@@ -60,15 +56,6 @@ BEGIN
         eids
     );
 
-    -- Determine final status
-    -- SELECT INTO f_status 
-    --     CASE 
-    --         WHEN EXISTS (SELECT 1 FROM temp_vpa_result WHERE create_status = 0) OR 
-    --              EXISTS (SELECT 1 FROM temp_sb_result WHERE bind_status = 0)
-    --         THEN 0 ELSE 1 
-    --     END;
-
-    -- Return the combined result with messages from both tables
     RETURN QUERY 
     SELECT sb.row_ids,
            CASE 
@@ -92,27 +79,10 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM registry.onboard_vpa(
 	ARRAY[1,2],
-    ARRAY['vpa_201', 'vpa11'],  
-	ARRAY['device_1011','device_3334'],
+    ARRAY['vpa_202', 'vpa11'],  
+	ARRAY['device_5','device_3334'],
 	ARRAY['bank_1', 'bank_1'], 
     ARRAY['ui1', 'ip1'], 
     ARRAY[28, 28]
 );
 
-
-
-
-
-
-
-
-
-
-
-
-----------------------------------RESULTS
-
-
-"row_ids"	"final_status"	"response"	"steps"	"create_vpa_status"	"create_vpa_response"	"bind_device_status"	"bind_device_response"
-1	1	"vpa_201"	"{create_vpa,bind_device}"	1	"{SUCCESS_INSERT}"	1	"{SUCCESS}"
-2	0	"vpa11"	"{create_vpa,bind_device}"	0	"{INVALID_DEVICE}"	0	"{INVALID_DEVICE,INVALID_VPA}"
