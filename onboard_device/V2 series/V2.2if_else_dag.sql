@@ -3,6 +3,7 @@
 
 CREATE OR REPLACE FUNCTION registry.onboard_device(
     onboard_status VARCHAR,
+    allocation VARCHAR,
     rowid INT[],
     mf_name TEXT[],
     d_names TEXT[],
@@ -22,7 +23,7 @@ RETURNS TABLE (
     event_response VARCHAR,
     steps TEXT[],
     step_status INTEGER[],
-    onboard_device_response registry.devices_msgs[],
+    onboard_devices_response registry.devices_msgs[],
     onboard_vpa_response registry.vpa_msgs[],
     bind_device_response registry.sb_msgs[],
     allocate_to_bank_response registry.sb_msgs[],
@@ -32,6 +33,7 @@ RETURNS TABLE (
 $$
 DECLARE
     final_status INTEGER;
+	action_steps TEXT[];
 BEGIN
 
   IF onboard_status = 'inventory' THEN
@@ -66,6 +68,7 @@ BEGIN
         allocate_merchant_response registry.sb_msgs[],
         device_id VARCHAR DEFAULT NULL
     ) ON COMMIT DROP;
+
     
     -- Insert initial device onboarding results
     INSERT INTO temp_onboard_result (row_id, onb_status, onboard_device_response, device_id)
@@ -116,63 +119,126 @@ BEGIN
     ) AS bind_result
     WHERE tor.row_id = bind_result.row_id;
     
-    -- Update with Allocate to Bank results
-    UPDATE temp_onboard_result tor
-    SET allocate_bank_status = bank_result.status,
-        allocate_bank_response = bank_result.msgs
-    FROM (
-        SELECT row_id, status, msgs FROM registry.sb_iterator(
-            rowid,
-            'ALLOCATE_TO_BANK',
-            ARRAY[]::TEXT[],    
-            d_names,
-            b_name,
-            ARRAY[]::TEXT[],
-            ARRAY[]::TEXT[],
-            event_bys,
-            eids
-        )
-    ) AS bank_result
-    WHERE tor.row_id = bank_result.row_id;
+     
+        IF allocation = 'allocate_to_bank'  THEN
 
-    -- Update with Allocate to Branch results
-    UPDATE temp_onboard_result tor
-    SET allocate_branch_status = branch_result.status,
-        allocate_branch_response = branch_result.msgs
-    FROM (
-        SELECT row_id, status, msgs FROM registry.sb_iterator(
-            rowid,
-            'ALLOCATE_TO_BRANCH',
-            ARRAY[]::TEXT[],    
-            d_names,
-            ARRAY[]::TEXT[],
-            br_name,
-            ARRAY[]::TEXT[],
-            event_bys,
-            eids
-        )
-    ) AS branch_result
-    WHERE tor.row_id = branch_result.row_id;
-    
-    -- Update with Allocate to Merchant results
-    UPDATE temp_onboard_result tor
-    SET allocate_merchant_status = merchant_result.status,
-        allocate_merchant_response = merchant_result.msgs
-    FROM (
-        SELECT row_id, status, msgs FROM registry.sb_iterator(
-            rowid,
-            'ALLOCATE_TO_MERCHANT',
-            ARRAY[]::TEXT[],    
-            d_names,
-            ARRAY[]::TEXT[],
-            ARRAY[]::TEXT[],
-            m_name,
-            event_bys,
-            eids
-        )
-    ) AS merchant_result
-    WHERE tor.row_id = merchant_result.row_id;
+            -- Update with Allocate to Bank results
+            UPDATE temp_onboard_result tor
+            SET allocate_bank_status = bank_result.status,
+                allocate_bank_response = bank_result.msgs
+            FROM (
+                SELECT row_id, status, msgs FROM registry.sb_iterator(
+                    rowid,
+                    'ALLOCATE_TO_BANK',
+                    ARRAY[]::TEXT[],    
+                    d_names,
+                    b_name,
+                    ARRAY[]::TEXT[],
+                    ARRAY[]::TEXT[],
+                    event_bys,
+                    eids
+                )
+            ) AS bank_result
+            WHERE tor.row_id = bank_result.row_id;
+			action_steps := ARRAY['ONBOARD_DEVICES','ONBOARD_VPA','BIND_DEVICE','ALLOCATE_TO_BANK']::TEXT[];
 
+		END IF;
+        IF allocation = 'allocate_to_branch' THEN
+			UPDATE temp_onboard_result tor
+            SET allocate_bank_status = bank_result.status,
+                allocate_bank_response = bank_result.msgs
+            FROM (
+                SELECT row_id, status, msgs FROM registry.sb_iterator(
+                    rowid,
+                    'ALLOCATE_TO_BANK',
+                    ARRAY[]::TEXT[],    
+                    d_names,
+                    b_name,
+                    ARRAY[]::TEXT[],
+                    ARRAY[]::TEXT[],
+                    event_bys,
+                    eids
+                )
+            ) AS bank_result
+            WHERE tor.row_id = bank_result.row_id;
+            -- Update with Allocate to Branch results
+            UPDATE temp_onboard_result tor
+            SET allocate_branch_status = branch_result.status,
+                allocate_branch_response = branch_result.msgs
+            FROM (
+                SELECT row_id, status, msgs FROM registry.sb_iterator(
+                    rowid,
+                    'ALLOCATE_TO_BRANCH',
+                    ARRAY[]::TEXT[],    
+                    d_names,
+                    ARRAY[]::TEXT[],
+                    br_name,
+                    ARRAY[]::TEXT[],
+                    event_bys,
+                    eids
+                )
+            ) AS branch_result
+            WHERE tor.row_id = branch_result.row_id;
+			action_steps := ARRAY['ONBOARD_DEVICES','ONBOARD_VPA','BIND_DEVICE','ALLOCATE_TO_BANK','ALLOCATE_TO_BRANCH']::TEXT[];
+
+    	END IF;
+		
+        IF allocation = 'allocate_to_merchant' THEN
+			UPDATE temp_onboard_result tor
+            SET allocate_bank_status = bank_result.status,
+                allocate_bank_response = bank_result.msgs
+            FROM (
+                SELECT row_id, status, msgs FROM registry.sb_iterator(
+                    rowid,
+                    'ALLOCATE_TO_BANK',
+                    ARRAY[]::TEXT[],    
+                    d_names,
+                    b_name,
+                    ARRAY[]::TEXT[],
+                    ARRAY[]::TEXT[],
+                    event_bys,
+                    eids
+                )
+            ) AS bank_result
+            WHERE tor.row_id = bank_result.row_id;
+            -- Update with Allocate to Branch results
+            UPDATE temp_onboard_result tor
+            SET allocate_branch_status = branch_result.status,
+                allocate_branch_response = branch_result.msgs
+            FROM (
+                SELECT row_id, status, msgs FROM registry.sb_iterator(
+                    rowid,
+                    'ALLOCATE_TO_BRANCH',
+                    ARRAY[]::TEXT[],    
+                    d_names,
+                    ARRAY[]::TEXT[],
+                    br_name,
+                    ARRAY[]::TEXT[],
+                    event_bys,
+                    eids
+                )
+            ) AS branch_result
+            WHERE tor.row_id = branch_result.row_id;
+-- Update with Allocate to Merchant results
+            UPDATE temp_onboard_result tor
+            SET allocate_merchant_status = merchant_result.status,
+                allocate_merchant_response = merchant_result.msgs
+            FROM (
+                SELECT row_id, status, msgs FROM registry.sb_iterator(
+                    rowid,
+                    'ALLOCATE_TO_MERCHANT',
+                    ARRAY[]::TEXT[],    
+                    d_names,
+                    ARRAY[]::TEXT[],
+                    ARRAY[]::TEXT[],
+                    m_name,
+                    event_bys,
+                    eids
+                )
+            ) AS merchant_result
+            WHERE tor.row_id = merchant_result.row_id;
+			action_steps := ARRAY['ONBOARD_DEVICES','ONBOARD_VPA','BIND_DEVICE','ALLOCATE_TO_BANK','ALLOCATE_TO_BRANCH','ALLOCATE_TO_MERCHANT']::TEXT[];
+    	END IF;
     -- Compute final status
     RETURN QUERY
     SELECT 
@@ -184,7 +250,7 @@ BEGIN
             ELSE 1 
         END AS final_status,
         tor.device_id,
-        ARRAY['ONBOARD_DEVICES','ONBOARD_VPA','BIND_DEVICE','ALLOCATE_TO_BANK','ALLOCATE_TO_BRANCH','ALLOCATE_TO_MERCHANT']::TEXT[],
+		action_steps,
         ARRAY[tor.onb_status, tor.onboard_vpa_status, tor.bind_device_status, 
               tor.allocate_bank_status, tor.allocate_branch_status, tor.allocate_merchant_status]::INTEGER[],
         tor.onboard_device_response, 
@@ -201,7 +267,8 @@ $$ LANGUAGE plpgsql;
 
 EXPLAIN ANALYZE
 SELECT * FROM registry.onboard_device(
-    'inventory',
+    'allocated',
+	'allocate_to_merchant',
     ARRAY[1,2]::INT[],
     ARRAY['mf_1','mf_1']::TEXT[],
     ARRAY['device_33','device_1011']::TEXT[],

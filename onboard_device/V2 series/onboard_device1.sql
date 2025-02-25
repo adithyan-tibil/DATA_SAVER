@@ -22,9 +22,9 @@ RETURNS TABLE (
     onboard_device_response registry.devices_msgs[],
     onboard_vpa_response registry.vpa_msgs[],
 	bind_device_response registry.sb_msgs[],
-    allocate_bank_response registry.sb_msgs[],
-    allocate_branch_response registry.sb_msgs[],
-    allocate_merchant_response registry.sb_msgs[]
+    allocate_to_bank_response registry.sb_msgs[],
+    allocate_to_branch_response registry.sb_msgs[],
+    allocate_to_merchant_response registry.sb_msgs[]
     
 ) AS
 $$
