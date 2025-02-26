@@ -14,6 +14,7 @@ ON registry.vpa_v(did)
 
 ALTER TYPE registry.vpa_msgs ADD VALUE 'INVALID_DEVICE';
 ALTER TYPE registry.vpa_msgs ADD VALUE 'DEVICE_HAS_VPA';
+ALTER TYPE registry.vpa_msgs ADD VALUE 'DEVICE_REPEATED';
 
 CREATE OR REPLACE FUNCTION registry.vpa_validator(vpa_name VARCHAR,b_id INTEGER,d_id INTEGER) 
 RETURNS registry.vpa_msgs[] AS $$
@@ -22,6 +23,10 @@ messages registry.vpa_msgs[];
 BEGIN
    	IF EXISTS (SELECT 1 FROM registry.vpa WHERE vpa = vpa_name ) THEN
         messages := array_append(messages, 'VPA_REPEATED'::registry.vpa_msgs);
+    END IF;
+
+	IF EXISTS (SELECT 1 FROM registry.vpa WHERE did = d_id ) THEN
+        messages := array_append(messages, 'DEVICE_REPEATED'::registry.vpa_msgs);
     END IF;
 	
 	IF NOT EXISTS (SELECT 1 FROM registry.banks WHERE bid = b_id AND isd = 'false') THEN

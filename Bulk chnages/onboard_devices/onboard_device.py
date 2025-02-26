@@ -3,7 +3,7 @@ def generate_sql_query(count):
     
     # Static parameters
     sql_query += "    'allocated',\n"
-    sql_query += "    'allocate_to_bank',\n"
+    sql_query += "    'allocate_to_merchant',\n"
     
     # Generate the required arrays dynamically
     sql_query += f"    ARRAY[{', '.join(map(str, range(1, count + 1)))}]::INT[],\n"
@@ -23,9 +23,9 @@ def generate_sql_query(count):
     return sql_query
 
 # Example usage:
-sql_query = generate_sql_query(50)
-print(sql_query)
+sql_query = generate_sql_query(1000)
+# print(sql_query)
 
 # Save to file
-with open("/home/adithyan/adithyan/DATA_BACKUP/GIT_BACKUP/DATA_SAVER/onboard_device/output_data/data", "w") as file:
+with open("/home/adithyan/adithyan/DATA_BACKUP/GIT_BACKUP/DATA_SAVER/Bulk chnages/onboard_devices/output_data/data", "w") as file:
     file.write(sql_query)

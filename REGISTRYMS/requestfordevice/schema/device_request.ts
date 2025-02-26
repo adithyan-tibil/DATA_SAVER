@@ -53,10 +53,10 @@ export const request_for_device = {
                   "shouldNotBeEmpty": true
                 }
               },
-              "required": ["name", "phno", "email"]
+              "required": [ "accNo", "accHolderName", "phno" ]
             }
           },
-          "required": ["row_id","bank_id", "branch_name","brinfo"]
+          "required": [ "context", "bank", "branch", "merchant", "minfo" ]
         }
       }
     },
