@@ -66,7 +66,7 @@ BEGIN
             event_bys,   
             eids
         );
-  ELSIF onboard_status = 'Allocate to Bank' OR onboard_status = 'Allocated to Branch' OR onboard_status = 'Allocated to Merchant' THEN
+  ELSIF onboard_status = 'Allocated to Bank' OR onboard_status = 'Allocated to Branch' OR onboard_status = 'Allocated to Merchant' THEN
    BEGIN
     CREATE TEMP TABLE temp_onboard_result (
         row_id INTEGER PRIMARY KEY,
@@ -232,7 +232,7 @@ $$ LANGUAGE plpgsql;
 EXPLAIN ANALYZE
 SELECT * FROM registry.onboard_device(
 	 ARRAY[1,2]::INT[],
-	'Allocated to Merchant',
+	'Allocated to Bank',
 	'ONBOARD_DEVICE',
 	ARRAY[]::INT[],
     ARRAY['mf_1','mf_1']::TEXT[],
