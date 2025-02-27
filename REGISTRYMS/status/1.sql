@@ -18,5 +18,7 @@ VALUES
 ('onboard_device','To Inventory'),
 ('onboard_device','Allocated to Bank'),
 ('onboard_device','Allocated to Branch'),
-('onboard_device','Allocated to Merchant')
+('onboard_device','Allocated to Merchant'),
+('device_issues','Resolved'),
+('device_issues','Invalid - Closed')
 ;

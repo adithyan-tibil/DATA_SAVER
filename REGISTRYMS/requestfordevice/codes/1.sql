@@ -12,7 +12,7 @@ CREATE TABLE registry.device_requests (
 	branch VARCHAR ,
 	merchant VARCHAR ,
 	minfo JSON ,
-	status registry.dr_status DEFAULT 'OPEN',
+	status registry.dr_status DEFAULT 'Open',
 	comment TEXT,
 	eat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	eby VARCHAR NOT NULL,
