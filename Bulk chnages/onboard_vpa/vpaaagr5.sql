@@ -56,18 +56,18 @@ BEGIN
     WHERE temp_result.row_ids = sb_result.row_id;
     
     RETURN QUERY 
-    SELECT sb.row_ids,
+    SELECT tr.row_ids,
            CASE 
-           WHEN vp.create_status = 0 OR sb.bind_status = 0 THEN 0 
+           WHEN tr.create_status = 0 OR tr.bind_status = 0 THEN 0 
            ELSE 1 
        	   END AS final_status,
-           vp.vid,
+           tr.vid,
            ARRAY['ONBOARD_VPA', 'BIND_DEVICE']::TEXT[],
-           ARRAY[vp.create_status, sb.bind_status],
-           vp.vpa_msgs,
-           sb.sb_msgs
-    FROM temp_sb_result sb
-    JOIN temp_vpa_result vp ON sb.row_ids = vp.row_ids;
+           ARRAY[tr.create_status, tr.bind_status],
+           tr.vpa_msgs,
+           tr.sb_msgs
+    FROM temp_result tr;
+    
     
 END;
 $$ LANGUAGE plpgsql;
