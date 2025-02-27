@@ -5,13 +5,6 @@ CREATE TYPE registry.dr_status AS ENUM(
 	'Delivered'
 )
 
--- CREATE TYPE registry.drevts AS ENUM(
--- 	'DEVICE_REQUEST_CREATED',
--- 	'DEVICE_REQUEST_ALLOCATED',
--- 	'DEVICE_REQUEST_DISPATCHED',
--- 	'DEVICE_REQUEST_DELIVERED'
--- )
-
 
 CREATE TABLE registry.device_requests (
 	drid SERIAL PRIMARY KEY,
@@ -19,7 +12,6 @@ CREATE TABLE registry.device_requests (
 	branch VARCHAR ,
 	merchant VARCHAR ,
 	minfo JSON ,
-	-- drevt registry.drevts,
 	status registry.dr_status DEFAULT 'OPEN',
 	comment TEXT,
 	eat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -30,28 +22,30 @@ CREATE TABLE registry.device_requests (
 
 
 CREATE OR REPLACE FUNCTION registry.request_for_device(
-	dr_id INTEGER,
+	device_request_id INTEGER,
 	context VARCHAR,
 	b_name VARCHAR,
 	br_name VARCHAR,
 	m_name VARCHAR,
 	m_info JSON ,
 	dr_status registry.dr_status,
-	-- r_comment TEXT,
+	r_comment TEXT,
 	e_by VARCHAR,
 	e_id INTEGER 
 	
 )
 RETURNS TABLE (
 	msg TEXT,
+	drid INTEGER,
 	bankName VARCHAR,
 	branchName VARCHAR,
 	merchantName VARCHAR,
 	merchantInfo JSON ,
 	drStatus registry.dr_status,
-	eventId INTEGER,
-	-- rcomment TEXT,
-	devicerequestid INTEGER
+	rcomment TEXT,
+	eventID INTEGER
+	
+	
 
 ) AS $$
 DECLARE
@@ -61,28 +55,33 @@ DECLARE
 	merchant_name VARCHAR;
 	merchant_info JSON;
 	request_status registry.dr_status;
+	request_comment TEXT;
 	event_id INTEGER;
 	
 BEGIN
 
 	IF context = 'CREATE' THEN
-		INSERT INTO registry.device_requests(bank,branch,merchant,minfo,status,eby,eid)
-		VALUES (b_name,br_name,m_name,m_info,dr_status,e_by,e_id)
-		RETURNING drid INTO devicerequest_id;
-		RETURN QUERY SELECT 'REQUEST_CREATED',b_name,br_name,m_name,m_info,dr_status,e_id,devicerequest_id;
-		-- RETURNING bank,branch,merchant,minfo,status,eid INTO bank_name ,branch_name,merchant_name,merchant_info,request_status,event_id ;
-		-- RETURN QUERY SELECT 'REQUEST_CREATED',bank_name,branch_name,merchant_name,merchant_info,request_status,event_id,dr_id;
+		INSERT INTO registry.device_requests AS dr(bank,branch,merchant,minfo,status,comment,eby,eid)
+		VALUES (b_name,br_name,m_name,m_info,dr_status,r_comment,e_by,e_id)
+		RETURNING dr.drid INTO devicerequest_id;
+		RETURN QUERY SELECT 'REQUEST_CREATED',devicerequest_id,b_name,br_name,m_name,m_info,dr_status,r_comment,e_id;
+		-- RETURNING drid,bank,branch,merchant,minfo,status,eid INTO devicerequest_id,bank_name ,branch_name,merchant_name,merchant_info,request_status,event_id ;
+		-- RETURN QUERY SELECT 'REQUEST_CREATED',bank_name,branch_name,merchant_name,merchant_info,request_status,event_id,device_request_id;
 	
 	
 	ELSIF context = 'UPDATE' THEN
-		UPDATE registry.device_requests
+	  IF EXISTS(SELECT 1 FROM registry.device_requests AS dr WHERE dr.drid = device_request_id ) THEN
+		UPDATE registry.device_requests AS dr
 			SET
 				status = dr_status,
-				eby = e_by
-			WHERE drid = dr_id
-		RETURNING bank,branch,merchant,minfo,status,eid INTO bank_name ,branch_name,merchant_name,merchant_info,request_status,event_id ;
-		RETURN QUERY SELECT 'REQUEST_UPDATED',bank_name,branch_name,merchant_name,merchant_info,request_status,event_id,dr_id;
-	
+				eby = e_by,
+				eid = e_id
+			WHERE dr.drid = device_request_id
+		RETURNING bank,branch,merchant,minfo,status,comment,eid INTO bank_name ,branch_name,merchant_name,merchant_info,request_status,request_comment,event_id ;
+		RETURN QUERY SELECT 'REQUEST_UPDATED',device_request_id,bank_name,branch_name,merchant_name,merchant_info,request_status,request_comment,event_id;
+	  ELSE 
+	  	RETURN QUERY SELECT 'INVALID_DRID',device_request_id,bank_name,branch_name,merchant_name,merchant_info,request_status,request_comment,event_id;
+	  END IF;
 	END IF;
 		
 
@@ -91,13 +90,14 @@ $$ LANGUAGE plpgsql;
 
 
 SELECT * FROM registry.request_for_device(
-	3,
-	'CREATE',
-	'bank_1',
-	'branch_1',
-	'merchant_1',
+	101,
+	'UPDATE'::VARCHAR,
+	'bank_1'::VARCHAR,
+	'branch_1'::VARCHAR,
+	'merchant_1'::VARCHAR,
 	'{"accNo":123,"name":"abc","phone":1234}' ,
-	'OPEN',
-	'abc2',
+	'ALLOCATED'::registry.dr_status,
+	'asdfghjkl'::TEXT,
+	'abc2'::VARCHAR,
 	5
 )
