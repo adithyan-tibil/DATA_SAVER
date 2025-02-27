@@ -1,8 +1,8 @@
 CREATE TYPE registry.dr_status AS ENUM(
-	'OPEN',
-	'ALLOCATED',
-	'DISPATCHED',
-	'DELIVERED'
+	'Open',
+	'Allocated',
+	'Dispatched',
+	'Delivered'
 )
 
 -- CREATE TYPE registry.drevts AS ENUM(
@@ -37,7 +37,7 @@ CREATE OR REPLACE FUNCTION registry.request_for_device(
 	m_name VARCHAR,
 	m_info JSON ,
 	dr_status registry.dr_status,
-	r_comment TEXT,
+	-- r_comment TEXT,
 	e_by VARCHAR,
 	e_id INTEGER 
 	
@@ -50,7 +50,7 @@ RETURNS TABLE (
 	merchantInfo JSON ,
 	drStatus registry.dr_status,
 	eventId INTEGER,
-	rcomment TEXT,
+	-- rcomment TEXT,
 	devicerequestid INTEGER
 
 ) AS $$
@@ -66,10 +66,10 @@ DECLARE
 BEGIN
 
 	IF context = 'CREATE' THEN
-		INSERT INTO registry.device_requests(bank,branch,merchant,minfo,status,comment,eby,eid)
-		VALUES (b_name,br_name,m_name,m_info,dr_status,r_comment,e_by,e_id)
+		INSERT INTO registry.device_requests(bank,branch,merchant,minfo,status,eby,eid)
+		VALUES (b_name,br_name,m_name,m_info,dr_status,e_by,e_id)
 		RETURNING drid INTO devicerequest_id;
-		RETURN QUERY SELECT 'REQUEST_CREATED',b_name,br_name,m_name,m_info,dr_status,r_comment,e_id,devicerequest_id;
+		RETURN QUERY SELECT 'REQUEST_CREATED',b_name,br_name,m_name,m_info,dr_status,e_id,devicerequest_id;
 		-- RETURNING bank,branch,merchant,minfo,status,eid INTO bank_name ,branch_name,merchant_name,merchant_info,request_status,event_id ;
 		-- RETURN QUERY SELECT 'REQUEST_CREATED',bank_name,branch_name,merchant_name,merchant_info,request_status,event_id,dr_id;
 	
@@ -80,7 +80,7 @@ BEGIN
 				status = dr_status,
 				eby = e_by
 			WHERE drid = dr_id
-		RETURNING bank,branch,merchant,minfo,status,commrnt,eid INTO bank_name ,branch_name,merchant_name,merchant_info,request_status,event_id ;
+		RETURNING bank,branch,merchant,minfo,status,eid INTO bank_name ,branch_name,merchant_name,merchant_info,request_status,event_id ;
 		RETURN QUERY SELECT 'REQUEST_UPDATED',bank_name,branch_name,merchant_name,merchant_info,request_status,event_id,dr_id;
 	
 	END IF;
