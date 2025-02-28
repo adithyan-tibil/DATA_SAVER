@@ -8,7 +8,7 @@ CREATE TYPE registry.di_status AS ENUM(
 
 
 CREATE TABLE registry.device_issues (
-    diid SERIAL PRIMARY KEY,
+    iid SERIAL PRIMARY KEY,
     bank VARCHAR,
     vpa VARCHAR,
     device VARCHAR,
@@ -40,12 +40,12 @@ CREATE OR REPLACE FUNCTION registry.raise_device_issues(
 )
 RETURNS TABLE (
 	msg TEXT,
-	diid INTEGER,
+	iid INTEGER,
 	deviceId VARCHAR,
 	vpaId VARCHAR,
 	merchantName VARCHAR,
 	merchantphno VARCHAR ,
-	diStatus registry.di_status,
+	status registry.di_status,
 	issue TEXT,
 	eventID INTEGER
 	
@@ -67,22 +67,22 @@ BEGIN
 	IF context = 'CREATE' THEN
 		INSERT INTO registry.device_issues AS di(device,bank,branch,vpa,merchant,mphno,status,issue_desc,eby,eid)
 		VALUES (d_name,b_name,br_name,v_name,m_name,m_phno,di_status,d_issue,e_by,e_id)
-		RETURNING di.diid INTO deviceissue_id;
+		RETURNING di.iid INTO deviceissue_id;
 		RETURN QUERY SELECT 'ISSUE_CREATED',deviceissue_id,d_name,v_name,m_name,m_phno,di_status,d_issue,e_id;
 
 	
 	ELSIF context = 'UPDATE' THEN
-	  IF EXISTS(SELECT 1 FROM registry.device_issues AS di WHERE di.diid = device_issue_id ) THEN
+	  IF EXISTS(SELECT 1 FROM registry.device_issues AS di WHERE di.iid = device_issue_id ) THEN
 		UPDATE registry.device_issues AS di
 			SET
 				status = di_status,
 				eby = e_by,
 				eid = e_id
-			WHERE di.diid = device_issue_id
-		RETURNING device,vpa,merchant,mphno,status,issue_desc,eid INTO device_name,vpa_name,merchant_name,merchant_phno,issue_status,issue_description,event_id ;
+			WHERE di.iid = device_issue_id
+		RETURNING device,vpa,merchant,mphno,di.status,issue_desc,eid INTO device_name,vpa_name,merchant_name,merchant_phno,issue_status,issue_description,event_id ;
 		RETURN QUERY SELECT 'ISSUE_UPDATED',device_issue_id,device_name,vpa_name,merchant_name,merchant_phno,issue_status,issue_description,event_id;
 	  ELSE 
-	  	RETURN QUERY SELECT 'INVALID_DIID',device_issue_id,device_name,vpa_name,merchant_name,merchant_phno,issue_status,issue_description,event_id;
+	  	RETURN QUERY SELECT 'INVALID_IID',device_issue_id,device_name,vpa_name,merchant_name,merchant_phno,issue_status,issue_description,event_id;
 	  END IF;
 	END IF;
 		
@@ -92,7 +92,7 @@ $$ LANGUAGE plpgsql;
 
 
 SELECT * FROM registry.raise_device_issues(
-	71,
+	2,
 	'UPDATE'::VARCHAR,
 	'device_2'::VARCHAR,	
 	'bank_1'::VARCHAR,
@@ -100,7 +100,7 @@ SELECT * FROM registry.raise_device_issues(
 	'vpa@1234'::VARCHAR,
 	'merchant_1'::VARCHAR,
 	'911234567890'::VARCHAR ,
-	'Open'::registry.di_status,
+	'Resolved'::registry.di_status,
 	'asdfghjkl'::TEXT,
 	'abc2'::VARCHAR,
 	5
