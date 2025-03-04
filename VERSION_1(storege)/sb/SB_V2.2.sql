@@ -394,7 +394,7 @@ BEGIN
                 UPDATE registry.sb
                 SET 
                     sbevt = 'BRANCH_DEACTIVATED',
-					isa = false,
+					brid = NULL,
                     eby = e_by,
 					eid = e_id,
                     eat = CURRENT_TIMESTAMP
@@ -412,7 +412,7 @@ BEGIN
                 UPDATE registry.sb
                 SET 
                     sbevt = 'VPA_DEACTIVATED',
-					isa = false,
+					vid = NULL,
                     eby = e_by,
 					eid = e_id,
                     eat = CURRENT_TIMESTAMP
@@ -430,7 +430,7 @@ BEGIN
                 UPDATE registry.sb
                 SET 
                     sbevt = 'MERCHANT_DEACTIVATED',
-					isa = false,
+					mid = NULL,
                     eby = e_by,
 					eid = e_id,
                     eat = CURRENT_TIMESTAMP
@@ -448,7 +448,7 @@ BEGIN
                 UPDATE registry.sb                
                 SET 
                     sbevt = 'BANK_DEACTIVATED',
-                    isa = false,
+                    bid = NULL,
                     eby = e_by,
 					eid = e_id,
                     eat = CURRENT_TIMESTAMP
@@ -467,8 +467,7 @@ BEGIN
                 UPDATE registry.sb
                 SET 
                     sbevt = 'VPA_DELETED',
-					isd = true,
-					isa = false,
+					vid = NULL,
                     eby = e_by,
 					eid = e_id,
                     eat = CURRENT_TIMESTAMP
