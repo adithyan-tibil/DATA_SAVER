@@ -1,3 +1,16 @@
+--  AND isa = TRUE
+
+
+
+-- added values
+-- VPA_DUPLICATED
+
+-- DEVICE_ALREADY_BINDED to VPA_ALREADY_BINDED
+
+
+
+
+
 DROP FUNCTION IF EXISTS 
     registry.sb_validator,
     registry.sb_validator_writer,
