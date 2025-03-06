@@ -23,7 +23,7 @@ def generate_sql_query(count):
     return sql_query
 
 # Example usage:
-sql_query = generate_sql_query(1000)
+sql_query = generate_sql_query(100)
 # print(sql_query)
 
 # Save to file

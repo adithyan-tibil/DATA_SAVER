@@ -31,7 +31,7 @@ def save_json_to_file(num_devices: int, file_path: str):
         json.dump(data, f, indent=4)
 
 if __name__ == "__main__":
-    num_devices = 250  # Set the number of devices here
-    file_path = "/home/adithyan/adithyan/DATA_BACKUP/GIT_BACKUP/DATA_SAVER/REGISTRYMS/Bulk chnages/onboard_devices/output_data/data2.json"  # Set the file path here
+    num_devices = 100  # Set the number of devices here
+    file_path = "VERSION_1(storege)/REGISTRYMS/Bulk chnages/onboard_devices/output_data/data2.json"  # Set the file path here
     save_json_to_file(num_devices, file_path)
     print(f"JSON data saved to {file_path}")

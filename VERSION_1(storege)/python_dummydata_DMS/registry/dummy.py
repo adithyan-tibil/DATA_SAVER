@@ -4,24 +4,19 @@ from faker import Faker
 def store_queries_to_file(num_rows):
     filename = 'VERSION_1(storege)/python_dummydata_DMS/datastore/queries.txt'
 
-    # Data generation setup
-    fake = Faker()
-    bid_list = [1]
+
 
     with open(filename, 'w') as f:
         query_base = """
-        INSERT INTO registry.banks (bid,bname, binfo, baddr, bevt, eid, eby)
+        INSERT INTO registry.upermissions (username)
         VALUES
         """
         values_list = []
 
         for i in range(num_rows):
-            bid = i + 1
-            bname = 'bank_' + str(i + 1)
-            binfo = '{"accNo": 12345678 , "phno": "+123456789012", "accHolderName": "abc@gm"}'
-            baddr = 'Banglore'
+
             
-            values_list.append(f"({bid},'{bname}', '{binfo}', '{baddr}', 'BANK_ONBOARDED', 1, 1)")
+            values_list.append(f"()")
 
         query_values = ",\n".join(values_list)
 
