@@ -50,7 +50,7 @@ RETURNS TABLE (mname TEXT, mvalue BIGINT) AS $$
 BEGIN
     IF urole = 'DMS Admin' THEN
         RETURN QUERY
-        SELECT 'total_device_cnt' AS mname, COUNT(sb.did) AS mvalue
+        SELECT 'total' AS mname, COUNT(sb.did) AS mvalue
         FROM registry.sb AS sb
         JOIN registry.devices AS d ON sb.did = d.did
         WHERE d.isd = false AND d.isa = true
@@ -66,14 +66,14 @@ BEGIN
         )
 
         UNION ALL
-        SELECT 'inventory_cnt', COUNT(sb.did)
+        SELECT 'inventory', COUNT(sb.did)
         FROM registry.sb AS sb
         JOIN registry.devices AS d ON sb.did = d.did
         WHERE d.isd = false AND d.isa = true
         AND sb.mid IS NULL AND sb.bid IS NULL AND sb.brid IS NULL
 
         UNION ALL
-        SELECT 'allocated_cnt', COUNT(sb.did)
+        SELECT 'allocated', COUNT(sb.did)
         FROM registry.sb AS sb
         JOIN registry.devices AS d ON sb.did = d.did
         WHERE d.isd = false AND d.isa = true
@@ -86,7 +86,7 @@ BEGIN
         );
     ELSE
         RETURN QUERY
-        SELECT 'total_device_cnt' AS mname, COUNT(sb.did) AS mvalue
+        SELECT 'total' AS mname, COUNT(sb.did) AS mvalue
         FROM registry.sb AS sb
         JOIN registry.devices AS d ON sb.did = d.did
         WHERE d.isd = false AND d.isa = true
@@ -169,17 +169,17 @@ BEGIN
     RETURN QUERY
     SELECT 'total' AS mname, COUNT(iid) AS mvalue
     FROM registry.device_issues i
-	WHERE i.device IN (SELECT d.dname FROM registry.devices d WHERE d.did IN (SELECT sb.did FROM registry.sb WHERE bid IN (SELECT context_id FROM intel.upermissions WHERE username = uname AND context = 'BANK')))
+	WHERE i.bank IN (SELECT b.bname FROM registry.banks b WHERE b.bid IN (SELECT context_id FROM intel.upermissions WHERE username = uname AND context = 'BANK'))
     UNION ALL
     SELECT 'open', COUNT(iid)
     FROM registry.device_issues i
     WHERE status = 'Open'
-	AND i.device IN (SELECT d.dname FROM registry.devices d WHERE d.did IN (SELECT sb.did FROM registry.sb WHERE bid IN (SELECT context_id FROM intel.upermissions WHERE username = uname AND context = 'BANK')))
+	AND i.bank IN (SELECT b.bname FROM registry.banks b WHERE b.bid IN (SELECT context_id FROM intel.upermissions WHERE username = uname AND context = 'BANK'))
     UNION ALL
     SELECT 'closed', COUNT(iid)
     FROM registry.device_issues i
     WHERE status != 'Open'
-	AND i.device IN (SELECT d.dname FROM registry.devices d WHERE d.did IN (SELECT sb.did FROM registry.sb WHERE bid IN (SELECT context_id FROM intel.upermissions WHERE username = uname AND context = 'BANK')));
+	AND i.bank IN (SELECT b.bname FROM registry.banks b WHERE b.bid IN (SELECT context_id FROM intel.upermissions WHERE username = uname AND context = 'BANK'));
 END
 $$ LANGUAGE plpgsql;
 
