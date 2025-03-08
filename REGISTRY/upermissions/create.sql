@@ -1,7 +1,6 @@
 CREATE TYPE registry.ucontexts AS ENUM(
 'BANK',
 'BRANCH',
-'MERCHANT',
 'USER'
 );
 

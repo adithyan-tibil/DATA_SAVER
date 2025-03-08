@@ -16,10 +16,10 @@ def store_queries_to_file(num_rows):
         values_list = []
 
         for i in range(num_rows):
-            brid = i + 31
-            bid = 4
-            brname = 'branch_' + str(i + 31)
-            brinfo = '{"accNo": 12345678 , "phno": "+123456789012", "accHolderName": "abc@gm"}'
+            brid = i + 13
+            bid = 5
+            brname = 'branch_' + str(i + 13)
+            brinfo = '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}'
             braddr = 'Banglore'
             
             values_list.append(f"({brid},'{brname}', '{brinfo}', '{braddr}',{bid}, 'BRANCH_ONBOARDED', 1, 1)")
@@ -30,4 +30,4 @@ def store_queries_to_file(num_rows):
 
         f.write(final_query + "\n")
 
-store_queries_to_file(10)  
+store_queries_to_file(3)  

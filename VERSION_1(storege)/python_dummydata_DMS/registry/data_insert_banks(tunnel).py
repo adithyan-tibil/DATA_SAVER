@@ -18,7 +18,7 @@ def store_queries_to_file(num_rows):
         for i in range(num_rows):
             bid = i + 1
             bname = 'bank_' + str(i + 1)
-            binfo = '{"accNo": 12345678 , "phno": "+123456789012", "accHolderName": "abc@gm"}'
+            binfo = '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}'
             baddr = 'Banglore'
             
             values_list.append(f"({bid},'{bname}', '{binfo}', '{baddr}', 'BANK_ONBOARDED', 1, 1)")
@@ -29,4 +29,4 @@ def store_queries_to_file(num_rows):
 
         f.write(final_query + "\n")
 
-store_queries_to_file(100)  
+store_queries_to_file(5)  
