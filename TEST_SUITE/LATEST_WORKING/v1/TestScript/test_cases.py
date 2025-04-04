@@ -6,6 +6,8 @@ import pandas as pd
 from dotenv import load_dotenv
 from Utilities import bearer, user_details
 import jmespath
+from assert_functions.dispatcher import perform_assertion
+
 # Load environment variables
 load_dotenv("Config/.env")
 # load_dotenv("../Config/.env")
@@ -72,7 +74,10 @@ def assert_response(assertion_type, response, expected_response, expected_status
         for key in expected_json:
             assert key in response_json, f"Missing key: {key}"
 
-@pytest.mark.parametrize("index, row", df_tests.iterrows())
+test_ids = df_tests["Test ID"].tolist()  # Extracting a list of test names
+
+@pytest.mark.parametrize("index, row", df_tests.iterrows(), ids=test_ids)
+
 def test_api_cases(test_executor, index, row):
     request_data = row['request']
     to_replace = row.get('to_replace', None)
@@ -99,21 +104,14 @@ def test_api_cases(test_executor, index, row):
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {BEARER_TOKEN}"}
     response = requests.request(row['request_type'], url, json=request_json, headers=headers)
 
-    if isinstance(row['add_to_context_value'], str) and isinstance(row['add_to_context_key'], str):
-        extracted_values = extract_values(response.json(), row['add_to_context_value'], row['add_to_context_key'])
+
+    if isinstance(row['add_to_context_value_path'], str):
+        extracted_values = extract_values(response.json(), row['add_to_context_value_path'], row['add_to_context_value_path'])
         for key, value in extracted_values.items():
             test_executor.add(key, value)
-    # try:
-        assert_response(row['assertion_type'], response, row['response'], row['expected_status'])
 
-    # except AssertionError as e:
-    #     print(f"Test Case {row['Test ID']} failed! | ERROR:{e}")
-    #     return False
-    # else:
-    #     print(f"Test Case {row['Test ID']} success!")
-    #     return True
+    perform_assertion(row['assertion_type'], response, row['response'], row['expected_status'])
 
-# pytest.main(["test_cases.py", "-v", "--html=API_Functional_report.html"])
 
 def run_all_test_cases():
     for index, row in df_tests.iterrows():

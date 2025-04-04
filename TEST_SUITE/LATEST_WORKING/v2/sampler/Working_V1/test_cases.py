@@ -15,8 +15,8 @@ BEARER_TOKEN = bearer.get_token("bearer_token")
 USER_ID = user_details.get_user_details("user_id")
 
 # Load test cases
-# df_tests = pd.read_csv("../TestData/test_data2.csv")
-df_tests = pd.read_csv("TestData/test_data2.csv")
+# df_tests = pd.read_csv("../TestData/test_cases.csv")
+df_tests = pd.read_csv("TestData/test_cases.csv")
 
 
 # Context object
@@ -113,7 +113,6 @@ def test_api_cases(test_executor, index, row):
     #     print(f"Test Case {row['Test ID']} success!")
     #     return True
 
-# pytest.main(["test_cases.py", "-v", "--html=API_Functional_report.html"])
 
 def run_all_test_cases():
     for index, row in df_tests.iterrows():
