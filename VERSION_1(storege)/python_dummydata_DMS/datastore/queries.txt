@@ -1,6 +1,13 @@
 
-        INSERT INTO registry.branches (brid,brname, brinfo, braddr,bid, brevt, eid, eby)
+        INSERT INTO registry.banks (bid,bname, binfo, baddr, bevt, eid, eby)
         VALUES
-        (13,'branch_13', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore',5, 'BRANCH_ONBOARDED', 1, 1),
-(14,'branch_14', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore',5, 'BRANCH_ONBOARDED', 1, 1),
-(15,'branch_15', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore',5, 'BRANCH_ONBOARDED', 1, 1);
+        (1,'tester_bank1', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(2,'tester_bank2', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(3,'tester_bank3', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(4,'tester_bank4', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(5,'tester_bank5', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(6,'tester_bank6', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(7,'tester_bank7', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(8,'tester_bank8', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(9,'tester_bank9', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
+(10,'tester_bank10', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1);
