@@ -1,11 +1,6 @@
 ALTER TABLE registry.upermissions ADD COLUMN fname VARCHAR;
 ALTER TABLE registry.upermissions ADD COLUMN lname VARCHAR;
-
-
-
--- select * from registry.upermissions order by upid
-
--- UPDATE registry.upermissions SET lname = 'User' 
+ALTER TABLE registry.upermissions ADD COLUMN urole VARCHAR;
 
 
 DROP FUNCTION IF EXISTS registry.add_user_permissions;
@@ -15,7 +10,8 @@ CREATE OR REPLACE FUNCTION registry.add_user_permissions(
     p_banks TEXT[],
     p_branches TEXT[],
 	f_name TEXT,
-	l_name TEXT
+	l_name TEXT,
+	u_role TEXT
 )
 RETURNS TABLE(username VARCHAR, context registry.ucontexts, context_id INT,fname VARCHAR,lname VARCHAR) AS $$
 DECLARE
@@ -35,8 +31,8 @@ BEGIN
 		ELSE	
 			IF bank_id IS NOT NULL THEN
 	            RETURN QUERY
-	            INSERT INTO registry.upermissions AS u(username, context, context_id,fname,lname)
-	            VALUES (p_username, 'BANK', bank_id,f_name,l_name)
+	            INSERT INTO registry.upermissions AS u(username, context, context_id,fname,lname,urole)
+	            VALUES (p_username, 'BANK', bank_id,f_name,l_name,u_role)
 	            RETURNING u.username, u.context, u.context_id,u.fname,u.lname;
 	        ELSE
 	            RAISE NOTICE 'Bank "%" not found.', p_banks[i];
@@ -54,8 +50,8 @@ BEGIN
 		  ELSE	
 	        IF branch_id IS NOT NULL THEN
 	            RETURN QUERY
-	            INSERT INTO registry.upermissions AS u(username, context, context_id,fname,lname)
-	            VALUES (p_username, 'BRANCH', branch_id,f_name,l_name)
+	            INSERT INTO registry.upermissions AS u(username, context, context_id,fname,lname,urole)
+	            VALUES (p_username, 'BRANCH', branch_id,f_name,l_name,u_role)
 	            RETURNING u.username, u.context, u.context_id,u.fname,u.lname;
 	        ELSE
 	            RAISE NOTICE 'Branch "%" not found.', p_branches[i];
