@@ -1,13 +1,13 @@
 
-        INSERT INTO registry.banks (bid,bname, binfo, baddr, bevt, eid, eby)
+        INSERT INTO registry.vpa (vid,vpa, bid,did, vevt, eid, eby)
         VALUES
-        (90001,'tester_bank1', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90002,'tester_bank2', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90003,'tester_bank3', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90004,'tester_bank4', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90005,'tester_bank5', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90006,'tester_bank6', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90007,'tester_bank7', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90008,'tester_bank8', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90009,'tester_bank9', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1),
-(90010,'tester_bank10', '{"name": "suresh", "phno": "+123456789012", "email": "abc@gmail.com"}', 'Banglore', 'BANK_ONBOARDED', 1, 1);
+        (1,'vpa@aqz21', 2, 1,'VPA_ONBOARDED', 1, 1),
+(2,'vpa@aqz22', 2, 2,'VPA_ONBOARDED', 1, 1),
+(3,'vpa@aqz23', 2, 3,'VPA_ONBOARDED', 1, 1),
+(4,'vpa@aqz24', 2, 4,'VPA_ONBOARDED', 1, 1),
+(5,'vpa@aqz25', 2, 5,'VPA_ONBOARDED', 1, 1),
+(6,'vpa@aqz26', 2, 6,'VPA_ONBOARDED', 1, 1),
+(7,'vpa@aqz27', 2, 7,'VPA_ONBOARDED', 1, 1),
+(8,'vpa@aqz28', 2, 8,'VPA_ONBOARDED', 1, 1),
+(9,'vpa@aqz29', 2, 9,'VPA_ONBOARDED', 1, 1),
+(10,'vpa@aqz30', 2, 10,'VPA_ONBOARDED', 1, 1);

@@ -3,7 +3,7 @@ import psycopg2
 from faker import Faker
 
 def store_queries_to_file(num_rows):
-    filename = 'VERSION_1(storege)/python_dummydata_DMS/datastore/queries.txt'
+    filename = '/home/adithyan/adithyan/DATA_BACKUP/GIT_BACKUP/DATA_SAVER/REGISTRY/python_dummydata_DMS/datastore/queries.txt'
 
     fake = Faker()
     bid_list = [1]
@@ -17,10 +17,10 @@ def store_queries_to_file(num_rows):
         values_list = []
 
         for i in range(num_rows):
-            vid=i+21
+            vid=i+1
             vpa = 'vpa@aqz' + str(i + 21)
             bid = 2
-            did = i+21
+            did = i+1
             values_list.append(f"({vid},'{vpa}', {bid}, {did},'VPA_ONBOARDED', 1, 1)")
 
         query_values = ",\n".join(values_list)
@@ -28,4 +28,4 @@ def store_queries_to_file(num_rows):
 
         f.write(final_query + "\n")
 
-store_queries_to_file(20)
+store_queries_to_file(10)
